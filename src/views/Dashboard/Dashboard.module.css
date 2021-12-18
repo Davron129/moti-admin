@@ -25,11 +25,40 @@
 
 .img__wrapper {
     width: 20px;
-    /* height: 20px; */
     margin-right: 12px;
+}
+
+.categories {
+    height: 58px;
+    overflow-x: auto;
+    position: relative;
+    /* padding: 10px; */
+}
+
+.category__inner {
+    width: 100%;
+    position: relative;
+    /* margin: -10px; */
+}
+
+.category__active {
+    background-color: var(--white);
+    z-index: 20;
+    transition: .3s linear;
 }
 
 .category__actions {
     margin-bottom: 16px;
+    display: inline-block;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 10;
 }
 

@@ -1,41 +1,92 @@
-import { useState, useEffect } from 'react';
-import Api from '../../utils/network/api';
-
 import styled from 'styled-components';
+import Api from '../../utils/network/api';
+import { useState, useEffect } from 'react';
+import SwiperCore, { FreeMode } from 'swiper';
+import { Swiper, SwiperSlide } from "swiper/react";
+// modals
+import AddCategory from '../../components/modals/AddCategory';
+import ConfirmModal from '../../components/modals/ConfirmModal';
+import EditCategory from '../../components/modals/EditCategory';
+// icons
 import { GrEdit } from 'react-icons/gr';
 import { AiOutlinePlus } from 'react-icons/ai';
 import { RiDeleteBinFill } from 'react-icons/ri';
+// styles
+import "swiper/css";
+import "swiper/css/free-mode"
 import Styles from './Dashboard.module.css';
-import AddCategory from '../../components/modals/AddCategory';
+
+  
+SwiperCore.use([FreeMode]);
 
 const ImgWrapper = styled.div`
     width: 20px;
     height: 20px;
     margin-right: 12px;
     display: inlien-block;
-`
+`;
 
 interface Categoryinterface {
     id: string;
     name: string;
     foods: []
-}
+};
 
 const Dashboard = () => {
-    const [ categories, setCategories ] = useState<Categoryinterface[]>([]);
+    const [ actionName, setActionName ] = useState<string>("");
+    const [ selectedId, setSelectedId ] = useState<string>("");
+    const [ categoryName, setCategoryName ] = useState<string>("");
+    const [ isEditable, setIsEditable ] = useState<boolean>(false);
     const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
+    const [ isDeletable, setIsDeletable ] = useState<boolean>(false);
+    const [ isOverlayOpen, setIsOverlayOpen ] = useState<boolean>(false);
+    const [ isDateChanged, setIsDataChanged ] = useState<boolean>(false);
+    const [ categories, setCategories ] = useState<Categoryinterface[]>([]);
 
     const getCategories = () => {
         new Api()
             .getCategory()
-            .then(({data}) => {
-                setCategories(data.data);
+            .then(({data}) => setCategories(data.data) )
+    }
+
+    const addCategory = (name: string) => {
+        new Api()
+            .addCategory(name)
+            .then(() => {
+                setIsModalOpen(false);
+                setIsDataChanged(!isDateChanged);
             })
+    }
+
+    const editCategory = (name: string) => {
+        new Api()
+            .editCategory(selectedId, name)
+            .then(() => {
+                setIsEditable(false);
+                setIsDataChanged(!isDateChanged);
+            })
+    }
+
+    const deleteCategory = (id: string) => {
+        new Api()
+            .deleteCategory(id)
+            .then(() => {
+                setIsDeletable(false);
+                setIsDataChanged(!isDateChanged);
+            })
+    }
+
+    const closeOverlay = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
+        e.stopPropagation();
+
+        if((e.target as Element).getAttribute("data-overlay")) {
+            setIsOverlayOpen(false);
+        }
     }
 
     useEffect(() => {
         getCategories();
-    }, [isModalOpen])
+    }, [isDateChanged])
 
     return (
         <div className="dashboard">
@@ -47,13 +98,23 @@ const Dashboard = () => {
                         </ImgWrapper>
                         <span>Add</span>
                     </div>
-                    <div className={`${Styles.category__action} ${Styles.edit}`}>
+                    <div    
+                        className={`${Styles.category__action} ${Styles.edit}`} 
+                        onClick={() => { 
+                            setIsOverlayOpen(true);
+                            setActionName("edit");
+                        }}>
                         <ImgWrapper>
                             <GrEdit />
                         </ImgWrapper>
                         <span>Edit</span>
                     </div>
-                    <div className={`${Styles.category__action} ${Styles.delete}`}>
+                    <div 
+                        className={`${Styles.category__action} ${Styles.delete}`} 
+                        onClick={() => {
+                            setIsOverlayOpen(true);
+                            setActionName("delete");
+                        }}>
                         <ImgWrapper>
                             <RiDeleteBinFill />
                         </ImgWrapper>
@@ -61,18 +122,53 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className="categories">
-                    {
-                        categories.map(category => (
-                            <div className={Styles.category__action} key={category.id}>
-                                <span>{ category.name }</span>
-                            </div>
-                        ))
-                    }
+                <div className={Styles.categories}>
+                    <div className={`${Styles.category__inner} ${isOverlayOpen && Styles.category__active}`}>
+                        <Swiper slidesPerView={'auto'} freeMode={true} >
+                            {
+                                categories.map(category => (
+                                    <SwiperSlide key={category.id} style={{ width: "auto" }}>
+                                        <div 
+                                            className={Styles.category__action} 
+                                            onClick={() => {
+                                                if(isOverlayOpen) {
+                                                    if(actionName === "edit") {
+                                                        setIsEditable(true);
+                                                    }
+                                                    
+                                                    if(actionName === "delete") {
+                                                        setIsDeletable(true);
+                                                    }
+                                                    setCategoryName(category.name);
+                                                    setSelectedId(category.id);
+                                                    setIsOverlayOpen(false);
+                                                } 
+                                            }}
+                                        >
+                                            <span>{ category.name }</span>
+                                        </div>
+                                    </SwiperSlide>
+                                ))
+                            }
+                        </Swiper>
+                    </div>
                 </div>
             </div>
             Dashboard
-            { isModalOpen && <AddCategory closeModal={setIsModalOpen} /> }
+            { isModalOpen && <AddCategory closeModal={setIsModalOpen} addFunc={addCategory} /> }
+            { isEditable && <EditCategory closeModal={setIsEditable} editFunc={editCategory} catName={categoryName}  />}
+            { isOverlayOpen && (
+                <div 
+                    className={Styles.overlay} 
+                    onClick={(e) => closeOverlay(e)} 
+                    data-overlay={true}>
+                </div>
+            )}
+            { isDeletable && <ConfirmModal 
+                closeModal={setIsDeletable} 
+                acceptFunc={() => deleteCategory(selectedId)} 
+                modalText={`Do you want to delete category ${categoryName}?`}
+            />}
         </div>
     )
 }

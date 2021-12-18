@@ -23,6 +23,10 @@ class Api {
             { name: name }, 
             { headers: this.headers })
     }
+
+    deleteCategory = (id) => {
+        return axios.delete(`/admin/category/delete/${id}`)
+    }
 }
 
 export default Api
