@@ -1,0 +1,60 @@
+@import './../../assets/styles/globalStyles.css';
+
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    overflow-y: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: .3s ease-in-out;
+    background-color: var(--white);
+    box-shadow: 0px 5px 20px rgba(56, 59, 65, 0.08);
+}
+
+.sidebar.active {
+    width: 60px;
+    transition: .3s ease-in-out;
+}
+
+.sidebar__ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar__link {
+    height: 60px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    color: var(--text-dark);
+    border-radius: 10px;
+}
+
+.sidebar__link[aria-current="page"] {
+    background-color: var(--bg-active);
+    color: var(--text-active);
+}
+
+.sidebar__link:hover {
+    background-color: var(--bg-active);
+    color: var(--text-active);
+}
+
+.sidebar__link:hover svg,
+.sidebar__link[aria-current="page"] svg{
+    fill: var(--svg-active);
+}
+
+.sidebar__icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 16px;
+}
+
+.sidebar__item .item__text {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+}

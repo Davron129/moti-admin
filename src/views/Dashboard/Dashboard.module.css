@@ -1,0 +1,35 @@
+@import '../../assets/styles/globalStyles.css';
+
+.category__actions {
+    margin-bottom: 16px;
+}
+
+.category__action {
+    padding: 8px 16px;
+    margin-right: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-active);
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.edit {
+    background-color: var(--edit-bg);
+}
+
+.category__action.delete {
+    background-color: var(--delete-bg);
+}
+
+.img__wrapper {
+    width: 20px;
+    /* height: 20px; */
+    margin-right: 12px;
+}
+
+.category__actions {
+    margin-bottom: 16px;
+}
+

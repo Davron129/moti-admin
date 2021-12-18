@@ -1,0 +1,58 @@
+:root {
+    --white: #FFFFFF;
+    --black: #000000;
+    --grey-bg: #F9FAFC;
+    --text-dark: #313436;
+    --edit-bg: rgb(255, 245, 228);
+    --delete-bg: rgb(255, 238, 237);
+    --text-black: #121212;
+    --text-active: #54A75C;
+    --svg-active: #54A75C;
+    --bg-active: rgba(59, 199, 107, 0.15);
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+
+* {
+    font-family: 'Manrope', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+img {
+    width: 100%;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+}
+
+input {
+    width: 100%;
+    display: inline-block;
+    padding: 6px 12px;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid var(--text-dark);
+}
+
+button {
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16px;
+    background: #ededf2;
+    border: none;
+    border-radius: 10px;
+}
+
