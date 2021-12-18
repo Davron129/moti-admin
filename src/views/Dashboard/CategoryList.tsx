@@ -2,13 +2,10 @@ import Styles from './Dashboard.module.css';
 import SwiperCore, { FreeMode } from 'swiper';
 import { Swiper, SwiperSlide } from "swiper/react";
 
-SwiperCore.use([FreeMode]);
+import "swiper/css";
+import "swiper/css/free-mode"
 
-type CategoryProps = {
-    categories: Category[];
-    isOverlayOpen: boolean;
-    clickAction: Function
-}
+SwiperCore.use([FreeMode]);
 
 type Category = {
     id: string;
@@ -16,6 +13,13 @@ type Category = {
     foods: []
 }
 
+type CategoryProps = {
+    categories: Category[];
+    isOverlayOpen: boolean;
+    clickAction: Function
+}
+
+// har xil rangda chiqadigan biror nima qo`shish mumkin
 const CategoryList = ({categories, isOverlayOpen, clickAction} : CategoryProps) => {
     return (
         <div className={Styles.categories}>
