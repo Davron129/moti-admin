@@ -21,35 +21,35 @@ type ActionProps = {
 const CategoryActions = ({ setIsModalOpen, openOverlay, setActionName} : ActionProps) => {
     return (
         <div className={Styles.category__actions}>
-                    <div className={Styles.category__action} onClick={() => setIsModalOpen(true)}>
-                        <ImgWrapper>
-                            <AiOutlinePlus />
-                        </ImgWrapper>
-                        <span>Add</span>
-                    </div>
-                    <div    
-                        className={`${Styles.category__action} ${Styles.edit}`} 
-                        onClick={() => { 
-                            openOverlay(true);
-                            setActionName("edit");
-                        }}>
-                        <ImgWrapper>
-                            <GrEdit />
-                        </ImgWrapper>
-                        <span>Edit</span>
-                    </div>
-                    <div 
-                        className={`${Styles.category__action} ${Styles.delete}`} 
-                        onClick={() => {
-                            openOverlay(true);
-                            setActionName("delete");
-                        }}>
-                        <ImgWrapper>
-                            <RiDeleteBinFill />
-                        </ImgWrapper>
-                        <span>Delete</span>
-                    </div>
-                </div>
+            <div className={Styles.category__action} onClick={() => setIsModalOpen(true)}>
+                <ImgWrapper>
+                    <AiOutlinePlus />
+                </ImgWrapper>
+                <span>Add</span>
+            </div>
+            <div    
+                className={`${Styles.category__action} ${Styles.edit}`} 
+                onClick={() => { 
+                    openOverlay(true);
+                    setActionName("edit");
+                }}>
+                <ImgWrapper>
+                    <GrEdit />
+                </ImgWrapper>
+                <span>Edit</span>
+            </div>
+            <div 
+                className={`${Styles.category__action} ${Styles.delete}`} 
+                onClick={() => {
+                    openOverlay(true);
+                    setActionName("delete");
+                }}>
+                <ImgWrapper>
+                    <RiDeleteBinFill />
+                </ImgWrapper>
+                <span>Delete</span>
+            </div>
+        </div>
     )
 }
 
