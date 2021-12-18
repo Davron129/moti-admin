@@ -1,16 +1,12 @@
-import styled from 'styled-components';
 import Api from '../../utils/network/api';
 import { useState, useEffect } from 'react';
 import SwiperCore, { FreeMode } from 'swiper';
 import { Swiper, SwiperSlide } from "swiper/react";
 // modals
+import CategoryActions from './CategoryActions';
 import AddCategory from '../../components/modals/AddCategory';
 import ConfirmModal from '../../components/modals/ConfirmModal';
 import EditCategory from '../../components/modals/EditCategory';
-// icons
-import { GrEdit } from 'react-icons/gr';
-import { AiOutlinePlus } from 'react-icons/ai';
-import { RiDeleteBinFill } from 'react-icons/ri';
 // styles
 import "swiper/css";
 import "swiper/css/free-mode"
@@ -18,13 +14,6 @@ import Styles from './Dashboard.module.css';
 
   
 SwiperCore.use([FreeMode]);
-
-const ImgWrapper = styled.div`
-    width: 20px;
-    height: 20px;
-    margin-right: 12px;
-    display: inlien-block;
-`;
 
 interface Categoryinterface {
     id: string;
@@ -91,37 +80,12 @@ const Dashboard = () => {
     return (
         <div className="dashboard">
             <div className="category">
-                <div className={Styles.category__actions}>
-                    <div className={Styles.category__action} onClick={() => setIsModalOpen(true)}>
-                        <ImgWrapper>
-                            <AiOutlinePlus />
-                        </ImgWrapper>
-                        <span>Add</span>
-                    </div>
-                    <div    
-                        className={`${Styles.category__action} ${Styles.edit}`} 
-                        onClick={() => { 
-                            setIsOverlayOpen(true);
-                            setActionName("edit");
-                        }}>
-                        <ImgWrapper>
-                            <GrEdit />
-                        </ImgWrapper>
-                        <span>Edit</span>
-                    </div>
-                    <div 
-                        className={`${Styles.category__action} ${Styles.delete}`} 
-                        onClick={() => {
-                            setIsOverlayOpen(true);
-                            setActionName("delete");
-                        }}>
-                        <ImgWrapper>
-                            <RiDeleteBinFill />
-                        </ImgWrapper>
-                        <span>Delete</span>
-                    </div>
-                </div>
-
+                <CategoryActions 
+                    setIsModalOpen={setIsModalOpen} 
+                    openOverlay={setIsOverlayOpen} 
+                    setActionName={setActionName} 
+                />
+                
                 <div className={Styles.categories}>
                     <div className={`${Styles.category__inner} ${isOverlayOpen && Styles.category__active}`}>
                         <Swiper slidesPerView={'auto'} freeMode={true} >
