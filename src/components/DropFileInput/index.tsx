@@ -1,4 +1,4 @@
-import {CSSProperties, LegacyRef, MutableRefObject, useRef, useState} from "react";
+import { RefObject, useState} from "react";
 import { FileUploader} from "react-drag-drop-files";
 import DropContainer from './DropContainer';
 
@@ -6,7 +6,7 @@ const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
 
 type DropFileInputProps = {
     setFile: Function,
-    imageRef: HTMLImageElement
+    imageRef: RefObject<HTMLImageElement> 
 }
 
 function DropFileInput({ setFile, imageRef } : DropFileInputProps) {
@@ -26,13 +26,13 @@ function DropFileInput({ setFile, imageRef } : DropFileInputProps) {
     }
 
     return (
-            <FileUploader
-                handleChange={handleChange}
-                name="file"
-                types={fileTypes}
-                onTypeError={handleError}
-                children={<DropContainer isDropped={isDropped} />}
-            />
+        <FileUploader
+            handleChange={handleChange}
+            name="file"
+            types={fileTypes}
+            onTypeError={handleError}
+            children={<DropContainer isDropped={isDropped} />}
+        />
     )
 }
 

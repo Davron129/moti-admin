@@ -1,12 +1,13 @@
-import {useState, ChangeEvent, FormEvent, useRef} from "react";
-import Api from '../../utils/network/api';
+import {useState,  useRef, MutableRefObject } from "react";
+// import Api from '../../utils/network/api';
 import Styles from './CategoryStyles.module.css';
 import DropFileInput from '../../components/DropFileInput/index';
 
 const CategoryAdd = () => {
-    const imageRef = useRef<HTMLImageElement | null>(null)
+    const imageRef = useRef() as MutableRefObject<HTMLImageElement>;
     const [ name, setName ] = useState<string>("");
     const [ price, setPrice ] = useState<number>(0);
+    const [ imageFile, setImageFile ] = useState<File>();
 
     return (
         <div className={Styles.category__add}>
@@ -38,11 +39,28 @@ const CategoryAdd = () => {
                         </label>
                     </div>
                     <div className={Styles.form__group}>
-                        <DropFileInput imageRef={imageRef} />
+                        <DropFileInput imageRef={imageRef} setFile={setImageFile} />
+                    </div>
+                    <div className={Styles.form__group}>
+                        <button>Save</button>
                     </div>
                 </form>
             </div>
-            <div className={Styles.category__view}></div>
+            <div className={Styles.category__view}>
+                <div className={Styles.category__card}>
+                    <div className={Styles.category__img}>
+                        <img src="" ref={imageRef} alt="" />
+                    </div>
+                    <div className={Styles.card__body}>
+                        <div className={Styles.category__name}>
+                            <span>{name}</span>
+                        </div>
+                        <div className={Styles.category__price}>
+                            <span>{price} so'm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

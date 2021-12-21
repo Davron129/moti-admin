@@ -15,10 +15,6 @@
     border-radius: 10px;
 }
 
-.form__group {
-
-}
-
 .form__group label {
     margin-bottom: 20px;
     display: block;
@@ -37,4 +33,47 @@
     border: 1px solid var(--input-border);
     font-size: 18px;
     color: var(--text-black);
+}
+
+.category__form button {
+    color: var(--white);
+    background-color: var(--text-active);
+}
+
+.category__card {
+    width: 240px;
+    margin: 0 auto;
+    border: 1px solid var(--input-border);
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.category__img {
+    height: 180px;
+    background-color: var(--input-border);
+    overflow: hidden;
+    position: relative;
+}
+
+.category__img img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.card__body {
+    padding: 10px;
+}
+
+.category__name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.category__price {
+    text-align: right;
+    font-weight: 500;
+    color: var(--text-dark);
 }
