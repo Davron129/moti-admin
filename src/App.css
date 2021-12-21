@@ -4,7 +4,7 @@
     min-height: 100vh;
     margin-left: 280px;
     transition: .3s ease-in-out;
-    background-color: var(--grey-white);
+    background-color: #fff;
 }
 
 .main__content.active {

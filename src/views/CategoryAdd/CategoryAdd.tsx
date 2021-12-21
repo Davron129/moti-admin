@@ -1,18 +1,39 @@
-import {useState,  useRef, MutableRefObject } from "react";
-// import Api from '../../utils/network/api';
-import Styles from './CategoryStyles.module.css';
+import {useState,  useRef, MutableRefObject, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import DropFileInput from '../../components/DropFileInput/index';
+import Api from "../../utils/network/api";
+
+
+import Styles from './CategoryStyles.module.css';
 
 const CategoryAdd = () => {
+    const navigate = useNavigate();
     const imageRef = useRef() as MutableRefObject<HTMLImageElement>;
     const [ name, setName ] = useState<string>("");
     const [ price, setPrice ] = useState<number>(0);
-    const [ imageFile, setImageFile ] = useState<File>();
+    const [ imageFile, setImageFile ] = useState<File | undefined>();
+
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
+
+        const imageFormData: FormData = new FormData();
+        imageFile && imageFormData.append("file", imageFile);
+
+        new Api()
+            .saveFile(imageFormData)
+            .then(({data}) => {
+                new Api()
+                    .addFood(localStorage.getItem("cat_id"), data.data.hashId, name, price)
+                    .then(() => {
+                        navigate("/dashboard")
+                    })
+            })
+    }
 
     return (
         <div className={Styles.category__add}>
             <div className={Styles.category__form}>
-                <form>
+                <form onSubmit={(e) => handleSubmit(e)}>
                     <div className={Styles.form__group}>
                         <label>
                             <span className={Styles.form__label}>Food Name</span>

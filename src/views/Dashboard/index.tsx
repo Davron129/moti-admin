@@ -9,12 +9,25 @@ import CategoryList from './CategoryList';
 import EditCategory from '../../components/modals/EditCategory';
 // styles
 import Styles from './Dashboard.module.css';
+import CategoryCard from '../../components/CategoryCard';
 
 interface Categoryinterface {
     id: string;
     name: string;
     foods: []
 };
+
+interface ImageInterface {
+    hashId?: string;
+}
+
+interface FoodInterface {
+    creatAt: number;
+    id: string;
+    image: ImageInterface;
+    name: string;
+    sum: number;
+}
 
 const Dashboard = () => {
     const [ actionName, setActionName ] = useState<string>("");
@@ -26,11 +39,17 @@ const Dashboard = () => {
     const [ isOverlayOpen, setIsOverlayOpen ] = useState<boolean>(false);
     const [ isDateChanged, setIsDataChanged ] = useState<boolean>(false);
     const [ categories, setCategories ] = useState<Categoryinterface[]>([]);
+    const [ categoryFoods, setCategoryFoods ] = useState<FoodInterface[]>([])
 
     const getCategories = () => {
         new Api()
             .getCategory()
-            .then(({data}) => setCategories(data.data) )
+            .then(({data}) => {
+                setCategories(data.data);
+                if(data.data !== []) {
+                    setCategoryFoods(data.data[0].foods);
+                }
+            } )
     }
 
     const addCategory = (name: string) => {
@@ -73,6 +92,9 @@ const Dashboard = () => {
             setIsOverlayOpen(false);
             setSelectedId(category.id);
         }
+        localStorage.setItem("cat_id", category.id);
+        setCategoryFoods(category.foods);
+        console.log(category.foods)
     }
 
     useEffect(() => {
@@ -93,6 +115,19 @@ const Dashboard = () => {
                     isOverlayOpen={isOverlayOpen}
                     clickAction={handleClickCategory}
                 />
+            </div>
+
+            <div className={Styles.foods__list}>
+                {
+                    categoryFoods.map((food: FoodInterface) => (
+                        <CategoryCard 
+                            key={food.id}
+                            name={food.name}
+                            price={food.sum}
+                            imageSrc={food.image && food.image.hashId && `https://cafe-service-f.herokuapp.com/api/admin/file/download/${food.image.hashId}`}
+                        />
+                    ))
+                }
             </div>
 
             { isModalOpen && <AddCategory 

@@ -41,8 +41,7 @@
 }
 
 .category__card {
-    width: 240px;
-    margin: 0 auto;
+    max-width: 400px;
     border: 1px solid var(--input-border);
     overflow: hidden;
     border-radius: 10px;
@@ -56,6 +55,7 @@
 }
 
 .category__img img {
+    /* height: 100%; */
     position: absolute;
     top: 50%;
     left: 50%;
