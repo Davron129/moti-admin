@@ -1,0 +1,40 @@
+@import '../../assets/styles/globalStyles.css';
+
+.category__add {
+    height: 80vh;
+    display: grid;
+    grid-template-columns: auto 320px;
+    grid-gap: 20px;
+}
+
+.category__form,
+.category__view {
+    padding: 20px 30px;
+    background-color: var(--white);
+    box-shadow: 0px 5px 20px 0px rgba(49, 52, 61, 0.05);
+    border-radius: 10px;
+}
+
+.form__group {
+
+}
+
+.form__group label {
+    margin-bottom: 20px;
+    display: block;
+}
+
+.form__label {
+    margin-bottom: 10px;
+    display: block;
+    font-size: 16px;
+    font-weight: bolder;
+    color: var(--text-dark);
+}
+
+.form__input {
+    padding: 14px 20px;
+    border: 1px solid var(--input-border);
+    font-size: 18px;
+    color: var(--text-black);
+}
