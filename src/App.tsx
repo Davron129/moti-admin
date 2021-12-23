@@ -3,6 +3,7 @@ import InnerComponent from './components/InnerComponent';
 import './App.css';
 import CategoryAdd from "./views/CategoryAdd/CategoryAdd";
 import Dashboard from "./views/Dashboard";
+import CategoryEdit from './views/CategoryEdit';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
             <Route element={<InnerComponent />} >
                 <Route path={'dashboard'} element={<Dashboard />} />
                 <Route path={'category/add'} element={<CategoryAdd />} />
+                <Route path={'food/edit/:id'} element={<CategoryEdit />} />
             </Route>
         </Routes>
       {/*<InnerComponent />*/}

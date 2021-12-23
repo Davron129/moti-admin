@@ -9,7 +9,7 @@ const ImgWrapper = styled.div`
     width: 20px;
     height: 20px;
     margin-right: 12px;
-    display: inlien-block;
+    display: inline-block;
 `;
 
 type ActionProps = {

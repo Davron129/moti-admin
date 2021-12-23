@@ -10,6 +10,7 @@
     --text-active: #54A75C;
     --svg-active: #54A75C;
     --bg-active: rgba(59, 199, 107, 0.15);
+    --cloud-bg: #C5C6D0;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');

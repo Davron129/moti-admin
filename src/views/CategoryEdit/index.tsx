@@ -1,32 +1,50 @@
-import {useState,  useRef, MutableRefObject, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import DropFileInput from '../../components/DropFileInput/index';
+import {useState,  useRef, MutableRefObject, FormEvent, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Api from "../../utils/network/api";
 
-import Styles from './CategoryStyles.module.css';
+import DropFileInput from '../../components/DropFileInput/index';
+import Styles from './../CategoryAdd/CategoryStyles.module.css';
 
-const CategoryAdd = () => {
+const CategoryEdit = () => {
+    const params = useParams();
     const navigate = useNavigate();
     const imageRef = useRef() as MutableRefObject<HTMLImageElement>;
     const [ name, setName ] = useState<string>("");
     const [ price, setPrice ] = useState<number>(0);
+    const [ imageHash, setImageHash ] = useState<string>("");
     const [ imageFile, setImageFile ] = useState<File | undefined>();
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        const imageFormData: FormData = new FormData();
-        imageFile && imageFormData.append("file", imageFile);
+        if(imageHash === "") {
+            const imageFormData: FormData = new FormData();
+            imageFile && imageFormData.append("file", imageFile);
 
-        new Api()
-            .saveFile(imageFormData)
-            .then(({data}) => {
-                new Api()
-                    .addFood(localStorage.getItem("cat_id"), data.data.hashId, name, price)
-                    .then(() => {
-                        navigate("/dashboard")
-                    })
-            })
+            new Api()
+                .saveFile(imageFormData)
+                .then(({data}) => { setImageHash(data.data.hashId) })
+                .then(() => { editFood() })
+        } else {
+            editFood();
+        }
     }
+
+    const editFood = () => {
+        new Api()
+            .editFood(params.id, imageHash, name, price)
+            .then(() => { navigate("/dashboard") })
+    }
+
+    useEffect(() => {
+        new Api()
+            .getFood(params.id)
+            .then(({data}) => {
+                setName(data.data.name);
+                setPrice(data.data.sum);
+                setImageHash(data.data.image.hashId);
+                imageRef.current.src = `https://cafe-service-f.herokuapp.com/api/admin/file/download/${data.data.image.hashId}`
+            })
+    }, [params.id])
 
     return (
         <div className={Styles.category__add}>
@@ -87,4 +105,4 @@ const CategoryAdd = () => {
     );
 }
 
-export default CategoryAdd
+export default CategoryEdit

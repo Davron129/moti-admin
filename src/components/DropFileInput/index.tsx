@@ -5,8 +5,8 @@ import DropContainer from './DropContainer';
 const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
 
 type DropFileInputProps = {
-    setFile: Function,
-    imageRef: RefObject<HTMLImageElement> 
+    setFile: Function;
+    imageRef: RefObject<HTMLImageElement> ;
 }
 
 function DropFileInput({ setFile, imageRef } : DropFileInputProps) {

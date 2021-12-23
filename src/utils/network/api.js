@@ -49,6 +49,28 @@ class Api {
             { headers: this.headers }
         )
     }
+
+    editFood = (cat_id, imageHashId, name, sum) => {
+        return axios.put(`/admin/food/edit/${cat_id}`, 
+            {
+                "categoryId": cat_id,
+                "imageHashId": imageHashId,
+                "name": name,
+                "sum": sum
+            },
+            { headers: this.headers }
+        )
+    }
+
+    getFood = (id) => {
+        return axios.get(`/admin/food/find/${id}`, 
+            { headers: this.headers }
+        )
+    }
+
+    deleteFood = (id) => {
+        return axios.delete(`/admin/food/delete/${id}`)
+    }
 }
 
 export default Api

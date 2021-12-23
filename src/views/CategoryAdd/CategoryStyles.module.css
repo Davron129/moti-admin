@@ -38,6 +38,7 @@
 .category__form button {
     color: var(--white);
     background-color: var(--text-active);
+    cursor: pointer;
 }
 
 .category__card {
@@ -75,13 +76,24 @@
 }
 
 .category__name {
+    margin-bottom: 16px;
     font-size: 18px;
     font-weight: 700;
     color: var(--text-dark);
 }
 
 .category__price {
+    display: flex;
+    justify-content: space-between;
     text-align: right;
     font-weight: 500;
     color: var(--text-dark);
+}
+
+.icon__wrapper {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    display: inline-block;
+    cursor: pointer;
 }

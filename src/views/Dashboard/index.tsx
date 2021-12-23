@@ -7,6 +7,7 @@ import ConfirmModal from '../../components/modals/ConfirmModal';
 // components
 import CategoryList from './CategoryList';
 import EditCategory from '../../components/modals/EditCategory';
+import CreateNewCategory from '../CategoryAdd/CreateNewCategory';
 // styles
 import Styles from './Dashboard.module.css';
 import CategoryCard from '../../components/CategoryCard';
@@ -40,18 +41,20 @@ const Dashboard = () => {
     const [ isDateChanged, setIsDataChanged ] = useState<boolean>(false);
     const [ categories, setCategories ] = useState<Categoryinterface[]>([]);
     const [ categoryFoods, setCategoryFoods ] = useState<FoodInterface[]>([])
-
+// get Categories
     const getCategories = () => {
         new Api()
             .getCategory()
             .then(({data}) => {
                 setCategories(data.data);
-                if(data.data !== []) {
+                if(data.data.length !== 0) {
                     setCategoryFoods(data.data[0].foods);
+                    setSelectedId(data.data[0].id);
+                    localStorage.setItem("cat_id", data.data[0].id);
                 }
             } )
     }
-
+// Add Category
     const addCategory = (name: string) => {
         new Api()
             .addCategory(name)
@@ -60,7 +63,7 @@ const Dashboard = () => {
                 setIsDataChanged(!isDateChanged);
             })
     }
-
+// Edit Category
     const editCategory = (name: string) => {
         new Api()
             .editCategory(selectedId, name)
@@ -69,7 +72,7 @@ const Dashboard = () => {
                 setIsDataChanged(!isDateChanged);
             })
     }
-
+// delete Category
     const deleteCategory = (id: string) => {
         new Api()
             .deleteCategory(id)
@@ -78,7 +81,15 @@ const Dashboard = () => {
                 setIsDataChanged(!isDateChanged);
             })
     }
-
+// delete Food
+    const deleteFood = (id: string) => {
+        new Api()
+            .deleteFood(id)
+            .then(() => {
+                setIsDataChanged(!isDateChanged);
+            })
+    }
+// close overlay 
     const closeOverlay = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
         e.stopPropagation();
         (e.target as Element).getAttribute("data-overlay") && setIsOverlayOpen(false);
@@ -94,7 +105,6 @@ const Dashboard = () => {
         }
         localStorage.setItem("cat_id", category.id);
         setCategoryFoods(category.foods);
-        console.log(category.foods)
     }
 
     useEffect(() => {
@@ -110,24 +120,37 @@ const Dashboard = () => {
                     setActionName={setActionName} 
                 />
                 
-                <CategoryList 
-                    categories={categories}
-                    isOverlayOpen={isOverlayOpen}
-                    clickAction={handleClickCategory}
-                />
+                {
+                    categories.length !== 0 
+                        ? <CategoryList 
+                            categories={categories}
+                            isOverlayOpen={isOverlayOpen}
+                            clickAction={handleClickCategory}
+                        />
+                        : <h1>No categories</h1>
+                }
             </div>
 
             <div className={Styles.foods__list}>
-                {
-                    categoryFoods.map((food: FoodInterface) => (
-                        <CategoryCard 
-                            key={food.id}
-                            name={food.name}
-                            price={food.sum}
-                            imageSrc={food.image && food.image.hashId && `https://cafe-service-f.herokuapp.com/api/admin/file/download/${food.image.hashId}`}
-                        />
-                    ))
+                { categories.length !== 0 && (
+                        <>
+                            {
+                                categoryFoods.map((food: FoodInterface) => (
+                                    <CategoryCard 
+                                        key={food.id}
+                                        name={food.name}
+                                        price={food.sum}
+                                        imageSrc={food.image && food.image.hashId && `https://cafe-service-f.herokuapp.com/api/admin/file/download/${food.image.hashId}`}
+                                        deleteFunc={() => deleteFood(food.id)}
+                                        id={food.id}
+                                    />
+                                ))
+                            }
+                            <CreateNewCategory />
+                        </>
+                    )
                 }
+                    
             </div>
 
             { isModalOpen && <AddCategory 
@@ -150,6 +173,7 @@ const Dashboard = () => {
                 acceptFunc={() => deleteCategory(selectedId)} 
                 modalText={`Do you want to delete category ${categoryName}?`}
             />}
+            
         </div>
     )
 }

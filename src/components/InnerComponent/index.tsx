@@ -10,7 +10,7 @@ const InnerComponent = () => {
     return (
         <>
             <Sidebar />
-            <div className={`main__content ${isWide && "active"}`} style={{ backgroundColor: "#FFF"}}  >
+            <div className={`main__content ${isWide && "active"}`} >
                 <div className="outlet" style={{padding: "20px"}}>
                     <Outlet />
                 </div>
