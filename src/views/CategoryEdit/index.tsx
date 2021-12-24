@@ -32,7 +32,7 @@ const CategoryEdit = () => {
     const editFood = () => {
         new Api()
             .editFood(params.id, imageHash, name, price)
-            .then(() => { navigate("/dashboard") })
+            .then(() => { navigate("/categories") })
     }
 
     useEffect(() => {

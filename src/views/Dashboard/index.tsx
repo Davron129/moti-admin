@@ -36,11 +36,12 @@ const Dashboard = () => {
     const [ categoryName, setCategoryName ] = useState<string>("");
     const [ isEditable, setIsEditable ] = useState<boolean>(false);
     const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
-    const [ isDeletable, setIsDeletable ] = useState<boolean>(false);
     const [ isOverlayOpen, setIsOverlayOpen ] = useState<boolean>(false);
     const [ isDateChanged, setIsDataChanged ] = useState<boolean>(false);
     const [ categories, setCategories ] = useState<Categoryinterface[]>([]);
-    const [ categoryFoods, setCategoryFoods ] = useState<FoodInterface[]>([])
+    const [ isFoodDeletable, setIsFoodDeletable ] = useState<boolean>(false);
+    const [ categoryFoods, setCategoryFoods ] = useState<FoodInterface[]>([]);
+    const [ isCategoryDeletable, setIsCategoryDeletable ] = useState<boolean>(false);
 // get Categories
     const getCategories = () => {
         new Api()
@@ -77,7 +78,7 @@ const Dashboard = () => {
         new Api()
             .deleteCategory(id)
             .then(() => {
-                setIsDeletable(false);
+                setIsCategoryDeletable(false);
                 setIsDataChanged(!isDateChanged);
             })
     }
@@ -98,7 +99,7 @@ const Dashboard = () => {
     const handleClickCategory = (category: Categoryinterface) => {
         if(isOverlayOpen) {
             actionName === "edit" && setIsEditable(true);
-            actionName === "delete" && setIsDeletable(true);
+            actionName === "delete" && setIsCategoryDeletable(true);
             setCategoryName(category.name);
             setIsOverlayOpen(false);
             setSelectedId(category.id);
@@ -140,7 +141,7 @@ const Dashboard = () => {
                                         key={food.id}
                                         name={food.name}
                                         price={food.sum}
-                                        imageSrc={food.image && food.image.hashId && `https://cafe-service-f.herokuapp.com/api/admin/file/download/${food.image.hashId}`}
+                                        imageSrc={food.image && food.image.hashId && `https://cafe-service-b.herokuapp.com/api/auth/file/preview/${food.image.hashId}`}
                                         deleteFunc={() => deleteFood(food.id)}
                                         id={food.id}
                                     />
@@ -168,8 +169,8 @@ const Dashboard = () => {
                 data-overlay={true}>
             </div>
             }
-            { isDeletable && <ConfirmModal 
-                closeModal={setIsDeletable} 
+            { isCategoryDeletable && <ConfirmModal 
+                closeModal={setIsCategoryDeletable} 
                 acceptFunc={() => deleteCategory(selectedId)} 
                 modalText={`Do you want to delete category ${categoryName}?`}
             />}

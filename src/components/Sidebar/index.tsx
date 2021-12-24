@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { BiCategory } from 'react-icons/bi'
 import { GiHotMeal } from 'react-icons/gi';
@@ -9,8 +10,12 @@ import {
     ImageWrapper
 } from './SidebarComponents';
 
+
 import Styles from './SidebarStyles.module.css';
 import Logo from '../../assets/images/logo.png';
+
+import SockJS from "sockjs-client";
+const Stomp = require('stompjs');
 
 interface SideItems {
     "content": string,
@@ -28,10 +33,41 @@ const sidebarItems: SideItems[] = [
         content: "Taomlar",
         icon: GiHotMeal,
         link: "/foods"
-    }
+    },
+    {
+        content: "Buyurtmalar",
+        icon: GiHotMeal,
+        link: "/order"
+    },
+    {
+        content: "Band Qilishlar",
+        icon: GiHotMeal,
+        link: "/booking"
+    },
 ]
 
 const Sidebar = () => {
+    const onConnect = () => {
+        const url = "https://cafe-service-b.herokuapp.com/api/auth/mb-websocket";
+        const sock = new SockJS(url);
+        const stompClient = Stomp.over(sock);
+        stompClient.connect({}, function() {
+            stompClient.subscribe("/topic/booking", function(data: any) {
+                console.log(data)
+                // dispatch({ type: "COMPUTER_CHANGED", payload: true })
+            })
+
+            stompClient.subscribe("/topic/order", function(data: any) {
+                // dispatch({ type: "PLAYSTATION_CHANGED", payload: true })
+                console.log(data)
+            })
+        })
+    }
+
+    useEffect(() => {
+        onConnect();
+    }, [])
+
     return (
         <div className={Styles.sidebar}>
             <SidebarBrand>

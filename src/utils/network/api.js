@@ -3,12 +3,12 @@ import axios from 'axios';
 class Api {
     constructor() {
         this.headers = {
-            "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbeyJpZCI6MiwibmFtZSI6IlJPTEVfQURNSU4iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE2Mzk3MjQxMDIsImV4cCI6MTczMTk1NzgyM30.NYkCx3VOO02pmX1xM39knYWXwidtVI8huu2RQShGwPQ`
+            "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbeyJpZCI6MiwibmFtZSI6IlJPTEVfQURNSU4iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE2NDAzMzU4MjQsImV4cCI6MTczMjU2OTU0NH0.EB6bRWUax3AsPot8ZxEtJjp8s5MVfW4k-Ja4YlI1TQY`
         }
     }
 
     getCategory = () => {
-        return axios.get("/admin/category/get-all")
+        return axios.get("/admin/category/get-all", { headers: this.headers })
     }
 
     addCategory = (name) => {
@@ -25,7 +25,7 @@ class Api {
     }
 
     deleteCategory = (id) => {
-        return axios.delete(`/admin/category/delete/${id}`)
+        return axios.delete(`/admin/category/delete/${id}`, { headers: this.headers })
     }
 
     saveFile = (file) => {
@@ -69,7 +69,11 @@ class Api {
     }
 
     deleteFood = (id) => {
-        return axios.delete(`/admin/food/delete/${id}`)
+        return axios.delete(`/admin/food/delete/${id}`, { headers: this.headers })
+    }
+
+    getBookings = () => {
+        return axios.get('/admin/booking/get-all', { headers: this.headers })
     }
 }
 

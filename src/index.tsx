@@ -8,7 +8,9 @@ import reportWebVitals from './reportWebVitals';
 import './assets/styles/globalStyles.css';
 
 
-axios.defaults.baseURL = 'https://cafe-service-f.herokuapp.com/api/';
+// axios.defaults.baseURL = 'http://147.182.210.197:8082/api/';
+axios.defaults.baseURL = 'https://cafe-service-b.herokuapp.com/api/';
+
 
 ReactDOM.render(
   <React.StrictMode>

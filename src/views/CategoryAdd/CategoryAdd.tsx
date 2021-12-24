@@ -22,9 +22,7 @@ const CategoryAdd = () => {
             .then(({data}) => {
                 new Api()
                     .addFood(localStorage.getItem("cat_id"), data.data.hashId, name, price)
-                    .then(() => {
-                        navigate("/dashboard")
-                    })
+                    .then(() => { navigate("/categories") })
             })
     }
 
