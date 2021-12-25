@@ -1,0 +1,23 @@
+.order__card {
+    /* width: 280px; */
+    padding: 10px;
+    border: 1px solid #000;
+}
+
+.order__foods {
+    width: 100%;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.order__foods .food {
+    max-width: 250px;
+    font-weight: bolder;
+    display: inline-block;
+}
+
+.order__foods .count {
+    display: inline-block;
+}
+

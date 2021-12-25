@@ -18,7 +18,6 @@ function DropFileInput({ setFile, imageRef } : DropFileInputProps) {
         if(imageRef && imageRef.current) {
             imageRef.current.src = URL.createObjectURL(file);
         }
-        console.log(file)
     };
 
     const handleError = (err: ErrorEvent) => {

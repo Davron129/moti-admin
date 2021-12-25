@@ -42,7 +42,7 @@ const CategoryEdit = () => {
                 setName(data.data.name);
                 setPrice(data.data.sum);
                 setImageHash(data.data.image.hashId);
-                imageRef.current.src = `https://cafe-service-f.herokuapp.com/api/admin/file/download/${data.data.image.hashId}`
+                imageRef.current.src = `https://cafe-service-f.herokuapp.com/api/auth/file/preview/${data.data.image.hashId}`
             })
     }, [params.id])
 

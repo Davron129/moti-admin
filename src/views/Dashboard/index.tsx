@@ -39,7 +39,8 @@ const Dashboard = () => {
     const [ isOverlayOpen, setIsOverlayOpen ] = useState<boolean>(false);
     const [ isDateChanged, setIsDataChanged ] = useState<boolean>(false);
     const [ categories, setCategories ] = useState<Categoryinterface[]>([]);
-    const [ isFoodDeletable, setIsFoodDeletable ] = useState<boolean>(false);
+    // food delete qilguncha model qoshilishi kerak
+    // const [ isFoodDeletable, setIsFoodDeletable ] = useState<boolean>(false);
     const [ categoryFoods, setCategoryFoods ] = useState<FoodInterface[]>([]);
     const [ isCategoryDeletable, setIsCategoryDeletable ] = useState<boolean>(false);
 // get Categories

@@ -75,6 +75,10 @@ class Api {
     getBookings = () => {
         return axios.get('/admin/booking/get-all', { headers: this.headers })
     }
+
+    getOrders = () => {
+        return axios.get('/admin/order/get-all', { headers: this.headers })
+    }
 }
 
 export default Api
