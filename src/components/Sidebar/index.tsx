@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { BiCategory } from 'react-icons/bi'
 import { GiHotMeal } from 'react-icons/gi';
@@ -10,11 +10,11 @@ import {
     ImageWrapper
 } from './SidebarComponents';
 
-
 import Styles from './SidebarStyles.module.css';
 import Logo from '../../assets/images/logo.png';
 
 import SockJS from "sockjs-client";
+import { useDispatch } from "react-redux";
 const Stomp = require('stompjs');
 
 interface SideItems {
@@ -47,26 +47,43 @@ const sidebarItems: SideItems[] = [
 ]
 
 const Sidebar = () => {
-    const onConnect = () => {
-        const url = "https://cafe-service-b.herokuapp.com/api/auth/mb-websocket";
-        const sock = new SockJS(url);
-        const stompClient = Stomp.over(sock);
-        stompClient.connect({}, function() {
-            stompClient.subscribe("/topic/booking", function(data: any) {
-                console.log(data)
-                // dispatch({ type: "COMPUTER_CHANGED", payload: true })
-            })
+    const isMounted = useRef<boolean>(true);
+    const dispatch = useDispatch();
+    // const onConnect = () => {
+    //     const url = "https://cafe-service-b.herokuapp.com/api/auth/mb-websocket";
+    //     const sock = new SockJS(url);
+    //     const stompClient = Stomp.over(sock);
+    //     stompClient.connect({}, function() {
+    //         stompClient.subscribe("/topic/booking", function(data: any) {
+    //             dispatch({ type: "BOOKED", payload: true })
+    //         })
 
-            stompClient.subscribe("/topic/order", function(data: any) {
-                // dispatch({ type: "PLAYSTATION_CHANGED", payload: true })
-                console.log(data)
-            })
-        })
-    }
+    //         stompClient.subscribe("/topic/order", function(data: any) {
+    //             dispatch({ type: "ORDERED", payload: true })
+    //         })
+    //     })
+    // }
 
     useEffect(() => {
-        onConnect();
-    }, [])
+        // isMounted.current && onConnect();
+        if(isMounted.current) {
+            const url = "https://cafe-service-b.herokuapp.com/api/auth/mb-websocket";
+            const sock = new SockJS(url);
+            const stompClient = Stomp.over(sock);
+            stompClient.connect({}, function() {
+                stompClient.subscribe("/topic/booking", function(data: any) {
+                    dispatch({ type: "BOOKED", payload: true })
+                })
+
+                stompClient.subscribe("/topic/order", function(data: any) {
+                    dispatch({ type: "ORDERED", payload: true })
+                })
+            })
+        }
+        return () => {
+            isMounted.current = false;
+        }
+    }, [dispatch])
 
     return (
         <div className={Styles.sidebar}>

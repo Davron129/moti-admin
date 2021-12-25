@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ImLocation } from 'react-icons/im';
+import { useSelector } from "react-redux";
 import Api from "../../utils/network/api";
 import Styles from './Order.module.css';
 
@@ -27,7 +28,14 @@ interface OrderInterface {
     foodCounts: FoodCountInterface[]
 }
 
+interface RootState {
+    booking: boolean;
+    order: boolean;
+}
+
 const Order = () => {
+    const isMounted = useRef<boolean>(true);
+    const isOrderChanged = useSelector((state: RootState) => state.order);
     const [ orders, setOrders ] = useState<OrderInterface[]>([]);
     // const [ computers, setComputers ] = useState([]);
     // const [ isMounted, setIsMounted ] = useState(true);
@@ -37,10 +45,14 @@ const Order = () => {
         new Api()
             .getOrders()
             .then(({data}) => {
-                setOrders(data.data);
-                console.log(data.data)
+                if(isMounted.current) {
+                    setOrders(data.data);
+                }
             })
-    }, [])
+        return () => {
+            isMounted.current = false;
+        }
+    }, [isOrderChanged])
 
     return (
         <>

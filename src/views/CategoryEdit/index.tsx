@@ -6,6 +6,7 @@ import DropFileInput from '../../components/DropFileInput/index';
 import Styles from './../CategoryAdd/CategoryStyles.module.css';
 
 const CategoryEdit = () => {
+    const isMounted = useRef<boolean>(true);
     const params = useParams();
     const navigate = useNavigate();
     const imageRef = useRef() as MutableRefObject<HTMLImageElement>;
@@ -39,11 +40,16 @@ const CategoryEdit = () => {
         new Api()
             .getFood(params.id)
             .then(({data}) => {
-                setName(data.data.name);
-                setPrice(data.data.sum);
-                setImageHash(data.data.image.hashId);
-                imageRef.current.src = `https://cafe-service-f.herokuapp.com/api/auth/file/preview/${data.data.image.hashId}`
+                if(isMounted.current) {
+                    setName(data.data.name);
+                    setPrice(data.data.sum);
+                    setImageHash(data.data.image.hashId);
+                    imageRef.current.src = `https://cafe-service-f.herokuapp.com/api/auth/file/preview/${data.data.image.hashId}`
+                }    
             })
+        return () => {
+            isMounted.current = false;
+        }
     }, [params.id])
 
     return (
