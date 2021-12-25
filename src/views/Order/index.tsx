@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
-import { NumericLiteral } from "typescript";
 import { ImLocation } from 'react-icons/im';
 import Api from "../../utils/network/api";
 import Styles from './Order.module.css';
