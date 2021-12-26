@@ -13,8 +13,8 @@ import './assets/styles/globalStyles.css';
 
 const store = createStore(reducers)
 
-// axios.defaults.baseURL = 'http://147.182.210.197:8082/api/';
-axios.defaults.baseURL = 'https://cafe-service-b.herokuapp.com/api/';
+axios.defaults.baseURL = 'http://161.35.139.54:8082/api/';
+// axios.defaults.baseURL = 'https://cafe-service-b.herokuapp.com/api/';
 
 ReactDOM.render(
   <React.StrictMode>

@@ -17,22 +17,21 @@ const CategoryEdit = () => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        if(imageHash === "") {
-            const imageFormData: FormData = new FormData();
-            imageFile && imageFormData.append("file", imageFile);
+        
+        const imageFormData: FormData = new FormData();
+        imageFile && imageFormData.append("file", imageFile);
+        console.log("ishladi")
 
-            new Api()
-                .saveFile(imageFormData)
-                .then(({data}) => { setImageHash(data.data.hashId) })
-                .then(() => { editFood() })
-        } else {
-            editFood();
-        }
+        new Api()
+            .saveFile(imageFormData)
+            .then(({data}) => { 
+                editFood(data.data.hashId)
+                })
     }
 
-    const editFood = () => {
+    const editFood = (hash: string) => {
         new Api()
-            .editFood(params.id, imageHash, name, price)
+            .editFood(params.id, hash, name, price)
             .then(() => { navigate("/categories") })
     }
 
@@ -44,7 +43,7 @@ const CategoryEdit = () => {
                     setName(data.data.name);
                     setPrice(data.data.sum);
                     setImageHash(data.data.image.hashId);
-                    imageRef.current.src = `https://cafe-service-f.herokuapp.com/api/auth/file/preview/${data.data.image.hashId}`
+                    imageRef.current.src = `http://161.35.139.54:8082/api/auth/file/preview/${data.data.image.hashId}`
                 }    
             })
         return () => {
@@ -65,6 +64,7 @@ const CategoryEdit = () => {
                                 placeholder={"Enter Food Name"}
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
+                                autoFocus
                             />
                         </label>
                     </div>

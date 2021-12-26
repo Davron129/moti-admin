@@ -67,7 +67,8 @@ const Sidebar = () => {
     useEffect(() => {
         // isMounted.current && onConnect();
         if(isMounted.current) {
-            const url = "https://cafe-service-b.herokuapp.com/api/auth/mb-websocket";
+            // const url = "https://cafe-service-b.herokuapp.com/api/auth/mb-websocket";
+            const url = "http://161.35.139.54:8082/api/auth/mb-websocket";
             const sock = new SockJS(url);
             const stompClient = Stomp.over(sock);
             stompClient.connect({}, function() {

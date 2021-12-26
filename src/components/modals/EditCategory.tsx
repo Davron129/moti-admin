@@ -38,6 +38,7 @@ const EditCategory = ({ editFunc, closeModal, catName }: AddProps) => {
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Category Name"    
                             className={Styles.modal__input}
+                            autoFocus
                         />
                         <button className={Styles.modal__btn}>Save</button>
                     </form>

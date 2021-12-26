@@ -3,8 +3,15 @@ import axios from 'axios';
 class Api {
     constructor() {
         this.headers = {
-            "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbeyJpZCI6MiwibmFtZSI6IlJPTEVfQURNSU4iLCJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE2NDAzMzU4MjQsImV4cCI6MTczMjU2OTU0NH0.EB6bRWUax3AsPot8ZxEtJjp8s5MVfW4k-Ja4YlI1TQY`
+            "Authorization": `Bearer ${localStorage.getItem('moti_token')}`
         }
+    }
+
+    login = (login, password) => {
+        return axios.post('/auth/login', {
+            "password": password,
+            "userName": login
+          })
     }
 
     getCategory = () => {
