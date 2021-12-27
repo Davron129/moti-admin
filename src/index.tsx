@@ -13,7 +13,7 @@ import './assets/styles/globalStyles.css';
 
 const store = createStore(reducers)
 
-axios.defaults.baseURL = 'http://161.35.139.54:8082/api/';
+axios.defaults.baseURL = 'http://64.225.51.161:8081/api/';
 // axios.defaults.baseURL = 'https://cafe-service-b.herokuapp.com/api/';
 
 ReactDOM.render(

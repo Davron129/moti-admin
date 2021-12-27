@@ -17,16 +17,20 @@ const CategoryEdit = () => {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        
+
         const imageFormData: FormData = new FormData();
         imageFile && imageFormData.append("file", imageFile);
-        console.log("ishladi")
+        // console.log(imageFile)
 
-        new Api()
-            .saveFile(imageFormData)
-            .then(({data}) => { 
-                editFood(data.data.hashId)
+        if(imageFile) {
+            new Api()
+                .saveFile(imageFormData)
+                .then(({data}) => { 
+                    editFood(data.data.hashId)
                 })
+        } else {
+            editFood(imageHash);
+        }
     }
 
     const editFood = (hash: string) => {
@@ -43,7 +47,7 @@ const CategoryEdit = () => {
                     setName(data.data.name);
                     setPrice(data.data.sum);
                     setImageHash(data.data.image.hashId);
-                    imageRef.current.src = `http://161.35.139.54:8082/api/auth/file/preview/${data.data.image.hashId}`
+                    imageRef.current.src = `http://64.225.51.161:8081/api/auth/file/preview/${data.data.image.hashId}`
                 }    
             })
         return () => {

@@ -142,7 +142,7 @@ const Dashboard = () => {
                                         key={food.id}
                                         name={food.name}
                                         price={food.sum}
-                                        imageSrc={food.image && food.image.hashId && `http://161.35.139.54:8082/api/auth/file/preview/${food.image.hashId}`}
+                                        imageSrc={food.image && food.image.hashId && `http://64.225.51.161:8081/api/auth/file/preview/${food.image.hashId}`}
                                         deleteFunc={() => deleteFood(food.id)}
                                         id={food.id}
                                     />
