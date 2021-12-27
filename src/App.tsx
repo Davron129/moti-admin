@@ -1,10 +1,9 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import Order from './views/Order';
 import Booking from './views/Booking';
 import Login from './views/Login/Index';
 import Dashboard from "./views/Dashboard";
-import Private from './components/Private';
 import CategoryEdit from './views/CategoryEdit';
 import InnerComponent from './components/InnerComponent';
 import CategoryAdd from "./views/CategoryAdd/CategoryAdd";
@@ -26,6 +25,10 @@ function App() {
         </Routes>
     </div>
   );
+}
+
+const Private = ({ children }: { children: JSX.Element }) => {
+  return localStorage.getItem("moti_token") ? children : <Navigate to='/login' />
 }
 
 export default App;

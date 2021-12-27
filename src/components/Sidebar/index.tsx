@@ -25,22 +25,22 @@ interface SideItems {
 
 const sidebarItems: SideItems[] = [
     {
-        content: "Kategoriyalar",
+        content: "Категории",
         icon: BiCategory,
         link: "/categories"
     },
+    // {
+    //     content: "Taomlar",
+    //     icon: GiHotMeal,
+    //     link: "/foods"
+    // },
     {
-        content: "Taomlar",
-        icon: GiHotMeal,
-        link: "/foods"
-    },
-    {
-        content: "Buyurtmalar",
+        content: "Заказы",
         icon: GiHotMeal,
         link: "/order"
     },
     {
-        content: "Band Qilishlar",
+        content: "Бронирование",
         icon: GiHotMeal,
         link: "/booking"
     },
