@@ -15,6 +15,7 @@ import Logo from '../../assets/images/logo.png';
 
 import SockJS from "sockjs-client";
 import { useDispatch } from "react-redux";
+import { API } from "../../utils/constants";
 const Stomp = require('stompjs');
 
 interface SideItems {
@@ -49,26 +50,10 @@ const sidebarItems: SideItems[] = [
 const Sidebar = () => {
     const isMounted = useRef<boolean>(true);
     const dispatch = useDispatch();
-    // const onConnect = () => {
-    //     const url = "https://cafe-service-b.herokuapp.com/api/auth/mb-websocket";
-    //     const sock = new SockJS(url);
-    //     const stompClient = Stomp.over(sock);
-    //     stompClient.connect({}, function() {
-    //         stompClient.subscribe("/topic/booking", function(data: any) {
-    //             dispatch({ type: "BOOKED", payload: true })
-    //         })
-
-    //         stompClient.subscribe("/topic/order", function(data: any) {
-    //             dispatch({ type: "ORDERED", payload: true })
-    //         })
-    //     })
-    // }
 
     useEffect(() => {
-        // isMounted.current && onConnect();
         if(isMounted.current) {
-            // const url = "https://cafe-service-b.herokuapp.com/api/auth/mb-websocket";
-            const url = "http://64.225.51.161:8081/api/auth/mb-websocket";
+            const url = `${API}/api/auth/mb-websocket`;
             const sock = new SockJS(url);
             const stompClient = Stomp.over(sock);
             stompClient.connect({}, function() {

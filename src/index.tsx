@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import reducers from './store/reducers/store';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { API } from './utils/constants';
 
 import App from './App';
 
@@ -13,8 +14,7 @@ import './assets/styles/globalStyles.css';
 
 const store = createStore(reducers)
 
-axios.defaults.baseURL = 'http://64.225.51.161:8081/api/';
-// axios.defaults.baseURL = 'https://cafe-service-b.herokuapp.com/api/';
+axios.defaults.baseURL = `${API}/api/`;
 
 ReactDOM.render(
   <React.StrictMode>

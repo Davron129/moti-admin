@@ -2,6 +2,7 @@ import {useState,  useRef, MutableRefObject, FormEvent, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom";
 import Api from "../../utils/network/api";
 
+import { API } from "../../utils/constants";
 import DropFileInput from '../../components/DropFileInput/index';
 import Styles from './../CategoryAdd/CategoryStyles.module.css';
 
@@ -47,7 +48,7 @@ const CategoryEdit = () => {
                     setName(data.data.name);
                     setPrice(data.data.sum);
                     setImageHash(data.data.image.hashId);
-                    imageRef.current.src = `http://64.225.51.161:8081/api/auth/file/preview/${data.data.image.hashId}`
+                    imageRef.current.src = `${API}/api/auth/file/preview/${data.data.image.hashId}`
                 }    
             })
         return () => {

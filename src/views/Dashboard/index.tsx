@@ -1,5 +1,6 @@
 import Api from '../../utils/network/api';
 import { useState, useEffect } from 'react';
+import { API } from '../../utils/constants';
 // modals
 import CategoryActions from './CategoryActions';
 import AddCategory from '../../components/modals/AddCategory';
@@ -142,7 +143,7 @@ const Dashboard = () => {
                                         key={food.id}
                                         name={food.name}
                                         price={food.sum}
-                                        imageSrc={food.image && food.image.hashId && `http://64.225.51.161:8081/api/auth/file/preview/${food.image.hashId}`}
+                                        imageSrc={food.image && food.image.hashId && `${API}/api/auth/file/preview/${food.image.hashId}`}
                                         deleteFunc={() => deleteFood(food.id)}
                                         id={food.id}
                                     />
