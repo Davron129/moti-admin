@@ -10,6 +10,7 @@
     place-items: center;
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(2px);
+    z-index: 30;
 }
 
 .modal__body {
@@ -24,14 +25,16 @@
     width: 20px;
     display: inline-block;
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .modal__title {
     margin-bottom: 20px;
-    font-size: 24px;
+    font-size: 20px;
+    line-height: 28px;
     text-align: center;
     font-weight: 600;
 }

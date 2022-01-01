@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, MutableRefObject, useState, useRef } from "react";
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 
 import Styles from './ModalStyles.module.css';
@@ -10,6 +10,7 @@ type AddProps =  {
 }
 
 const EditCategory = ({ editFunc, closeModal, catName }: AddProps) => {
+    const fileInput = useRef() as MutableRefObject<HTMLInputElement>;
     const [ name, setName ] = useState<string>(catName);
 
     const handleCloseModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
@@ -32,6 +33,12 @@ const EditCategory = ({ editFunc, closeModal, catName }: AddProps) => {
                 <span className={Styles.modal__close} onClick={() => closeModal(false)}><AiOutlineCloseCircle /></span>
                 <div className={Styles.modal__content}>
                     <form onSubmit={(e) => handleSubmit(e)} className={Styles.modal__form}>
+                        <div>
+                            <input 
+                                type="file"
+                                ref={fileInput}
+                            />
+                        </div>
                         <input 
                             type="text"
                             value={name}
