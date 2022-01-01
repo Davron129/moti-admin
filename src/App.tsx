@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 
+import Test from './views/Test'
 import Order from './views/Order';
 import Booking from './views/Booking';
 import Login from './views/Login/Index';
@@ -14,6 +15,7 @@ function App() {
   return (
     <div className="App">
         <Routes>
+            <Route index element={<Test />} />
             <Route path={'login'} element={<Login />} />
             <Route element={<InnerComponent />} >
                 <Route path={'order'} element={<Private><Order /></Private>} />
