@@ -1,16 +1,18 @@
 import { FormEvent, MutableRefObject, useState, useRef } from "react";
 import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { BiCloudUpload } from 'react-icons/bi';
 
 import Styles from './ModalStyles.module.css';
 
 type AddProps =  {
+    catName: string;
+    progress: number;
     editFunc: Function;
     closeModal: Function;
-    catName: string
+    fileRef: MutableRefObject<HTMLInputElement>;
 }
 
-const EditCategory = ({ editFunc, closeModal, catName }: AddProps) => {
-    const fileInput = useRef() as MutableRefObject<HTMLInputElement>;
+const EditCategory = ({ editFunc, closeModal, catName, fileRef, progress }: AddProps) => {
     const [ name, setName ] = useState<string>(catName);
 
     const handleCloseModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
@@ -33,12 +35,35 @@ const EditCategory = ({ editFunc, closeModal, catName }: AddProps) => {
                 <span className={Styles.modal__close} onClick={() => closeModal(false)}><AiOutlineCloseCircle /></span>
                 <div className={Styles.modal__content}>
                     <form onSubmit={(e) => handleSubmit(e)} className={Styles.modal__form}>
-                        <div>
-                            <input 
-                                type="file"
-                                ref={fileInput}
-                            />
+                    <div style={{ marginBottom: "10px"}}>
+                            <label style={{ margin: "0 auto", display: "grid", placeItems: "center"}}>
+                                <div className={Styles.img__wrapper}>
+                                    <BiCloudUpload color="#54A75C" />
+                                </div>
+                                <input 
+                                    type="file"
+                                    accept="image/*"
+                                    ref={fileRef}
+                                    style={{ display: "none" }}
+                                />
+                                <span>
+                                    {
+                                        fileRef?.current?.files && fileRef.current.files[0]?.name
+                                    }
+                                </span>
+                            </label>
                         </div>
+                        {
+                            progress !== 0 && progress !== 100 && (
+                                <div>
+                                    <progress
+                                        max={100}
+                                        value={progress}
+                                        className={Styles.modal__progress}
+                                    ></progress>
+                                </div>
+                            )
+                        }
                         <input 
                             type="text"
                             value={name}
@@ -47,7 +72,10 @@ const EditCategory = ({ editFunc, closeModal, catName }: AddProps) => {
                             className={Styles.modal__input}
                             autoFocus
                         />
-                        <button className={Styles.modal__btn}>Save</button>
+                        <button 
+                            className={Styles.modal__btn}
+                            disabled={progress > 0 && progress < 100}    
+                        >Save</button>
                     </form>
                 </div>
             </div>

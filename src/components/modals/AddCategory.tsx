@@ -7,7 +7,6 @@ import Styles from './ModalStyles.module.css';
 interface AddProps {
     closeModal: Function;
     addFunc: Function;
-    // setFile: Function;
     fileRef: MutableRefObject<HTMLInputElement>,
     progress: number
 }

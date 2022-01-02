@@ -26,9 +26,12 @@ class Api {
         { headers: this.headers })
     }
 
-    editCategory = (id, name) => {
+    editCategory = (id, hashId, name) => {
         return axios.put(`/admin/category/edit/${id}`, 
-            { name: name }, 
+            { 
+                hashId: hashId,
+                name: name
+            }, 
             { headers: this.headers })
     }
 

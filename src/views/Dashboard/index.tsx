@@ -23,6 +23,9 @@ interface Categoryinterface {
     foods: []
     id: string;
     name: string;
+    image: {
+        hashId: string
+    }
 };
 
 interface ImageInterface {
@@ -39,6 +42,7 @@ interface FoodInterface {
 
 const Dashboard = () => {
     const [ progress, setProgress ] = useState<number>(0); // progress for file upload
+    const [ imageHash, setImageHash ] = useState<string>("")
     const [ actionName, setActionName ] = useState<string>("");
     const [ selectedId, setSelectedId ] = useState<string>(""); // selected category's id
     const [ categoryName, setCategoryName ] = useState<string>(""); 
@@ -75,7 +79,7 @@ const Dashboard = () => {
                     "Authorization": `Bearer ${localStorage.getItem('moti_token')}`,
                     'content-type': 'multipart/form-data'
                 },
-                onUploadProgress: (data) => {
+                onUploadProgress: (data) => { // for progress bar
                     setProgress(Math.round((100*data.loaded)/ data.total));
                 }
             })
@@ -83,9 +87,9 @@ const Dashboard = () => {
                 new Api()
                     .addCategory(data.data.hashId, name)
                     .then(() => {
-                        setIsModalOpen(false);
-                        setIsDataChanged(!isDateChanged);
-                        succesMsg("Category saved succesfully");
+                        setIsModalOpen(false); // close after success
+                        setIsDataChanged(!isDateChanged); // render after data change
+                        succesMsg("Category saved succesfully"); // toast about success
                     })
             })
         } else {
@@ -94,12 +98,39 @@ const Dashboard = () => {
     }
 // Edit Category
     const editCategory = (name: string) => {
-        new Api()
-            .editCategory(selectedId, name)
-            .then(() => {
-                setIsEditable(false);
-                setIsDataChanged(!isDateChanged);
+        const imageFormData: FormData = new FormData();
+        const file = categoryRef.current.files && categoryRef.current.files[0];
+        if(file) {
+            imageFormData.append("file", file);
+    
+            axios.post('/admin/file/save', imageFormData, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('moti_token')}`,
+                    'content-type': 'multipart/form-data'
+                },
+                onUploadProgress: (data) => { // for progress bar
+                    setProgress(Math.round((100*data.loaded)/ data.total));
+                }
             })
+            .then(({data}) => {
+                new Api()
+                    .editCategory(selectedId, data.data.hashId, name)
+                    .then(() => {
+                        setIsEditable(false); // close after success
+                        setIsDataChanged(!isDateChanged); // render after data change
+                        succesMsg("Category saved succesfully"); // toast about success
+                    })
+            })
+        } else {
+            new Api()
+                .editCategory(selectedId, imageHash, name)
+                .then(() => {
+                    setIsEditable(false);
+                    setIsDataChanged(!isDateChanged);
+                    succesMsg("Category editted succesfully"); // toast about success
+
+                })
+        }
     }
 // delete Category
     const deleteCategory = (id: string) => {
@@ -131,6 +162,7 @@ const Dashboard = () => {
             setCategoryName(category.name);
             setIsOverlayOpen(false);
             setSelectedId(category.id);
+            setImageHash(category.image.hashId);
         }
         localStorage.setItem("cat_id", category.id);
         setCategoryFoods(category.foods);
@@ -191,6 +223,8 @@ const Dashboard = () => {
                 closeModal={setIsEditable} 
                 editFunc={editCategory} 
                 catName={categoryName}  
+                progress={progress}
+                fileRef={categoryRef}
             />}
             { isOverlayOpen && <div 
                 className={Styles.overlay} 
