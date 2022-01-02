@@ -65,6 +65,11 @@
     cursor: pointer;
 }
 
+.modal__btn:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
 .modal__accept {
     display: inline-block;
     background-color: var(--text-active);
@@ -72,4 +77,15 @@
 
 .modal__decline {
     display: inline-block;
+}
+
+.modal__progress {
+    width: 100%;
+    height: 30px;
+    transition: .3s linear;
+}
+
+.img__wrapper {
+    width: 30px;
+    cursor: pointer;
 }

@@ -18,8 +18,9 @@ class Api {
         return axios.get("/admin/category/get-all", { headers: this.headers })
     }
 
-    addCategory = (name) => {
+    addCategory = (hashId, name) => {
         return axios.post("/admin/category/save", {
+            "hashId": hashId,
             "name": name   
         }, 
         { headers: this.headers })
@@ -38,10 +39,12 @@ class Api {
     saveFile = (file) => {
         return axios.post('/admin/file/save', 
             file,
-            { headers: {
-                ...this.headers,
-                'content-type': 'multipart/form-data'
-            }}
+            { 
+                headers: {
+                    ...this.headers,
+                    'content-type': 'multipart/form-data'
+                },
+            }
         )
     }
 

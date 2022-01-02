@@ -1,6 +1,10 @@
+import axios from 'axios';
 import Api from '../../utils/network/api';
-import { useState, useEffect } from 'react';
 import { API } from '../../utils/constants';
+import { useState, useEffect, useRef, MutableRefObject } from 'react';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // modals
 import CategoryActions from './CategoryActions';
 import AddCategory from '../../components/modals/AddCategory';
@@ -32,6 +36,7 @@ interface FoodInterface {
 }
 
 const Dashboard = () => {
+    const categoryRef = useRef() as MutableRefObject<HTMLInputElement>;
     const [ actionName, setActionName ] = useState<string>("");
     const [ selectedId, setSelectedId ] = useState<string>("");
     const [ categoryName, setCategoryName ] = useState<string>("");
@@ -42,6 +47,7 @@ const Dashboard = () => {
     const [ categories, setCategories ] = useState<Categoryinterface[]>([]);
     // food delete qilguncha model qoshilishi kerak
     // const [ isFoodDeletable, setIsFoodDeletable ] = useState<boolean>(false);
+    const [ progress, setProgress ] = useState<number>(0);
     const [ categoryFoods, setCategoryFoods ] = useState<FoodInterface[]>([]);
     const [ isCategoryDeletable, setIsCategoryDeletable ] = useState<boolean>(false);
 // get Categories
@@ -57,14 +63,56 @@ const Dashboard = () => {
                 }
             } )
     }
+// toastlarni boshqa funksiyaga olish kerak
+    const errorMsg = (msg: string) => toast.error(msg, {
+        position: "top-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+    });
+
+    const succesMsg = (msg:string) => toast.success(msg, {
+        position: "top-right",
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+    })
+    
+
 // Add Category
     const addCategory = (name: string) => {
-        new Api()
-            .addCategory(name)
-            .then(() => {
-                setIsModalOpen(false);
-                setIsDataChanged(!isDateChanged);
+        const imageFormData: FormData = new FormData();
+        const file = categoryRef.current.files && categoryRef.current.files[0];
+        if(file) {
+            imageFormData.append("file", file);
+    
+            axios.post('/admin/file/save', imageFormData, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('moti_token')}`,
+                    'content-type': 'multipart/form-data'
+                },
+                onUploadProgress: (data) => {
+                    setProgress(Math.round((100*data.loaded)/ data.total));
+                }
             })
+            .then(({data}) => {
+                new Api()
+                    .addCategory(data.data.hashId, name)
+                    .then(() => {
+                        setIsModalOpen(false);
+                        setIsDataChanged(!isDateChanged);
+                        succesMsg("Category saved succesfully");
+                    })
+            })
+        } else {
+            errorMsg("File not uploaded");
+        }
+
+       
     }
 // Edit Category
     const editCategory = (name: string) => {
@@ -159,6 +207,8 @@ const Dashboard = () => {
             { isModalOpen && <AddCategory 
                 closeModal={setIsModalOpen} 
                 addFunc={addCategory} 
+                fileRef={categoryRef}
+                progress={progress}
             /> }
             { isEditable && <EditCategory 
                 closeModal={setIsEditable} 
@@ -176,7 +226,17 @@ const Dashboard = () => {
                 acceptFunc={() => deleteCategory(selectedId)} 
                 modalText={`Do you want to delete category ${categoryName}?`}
             />}
-            
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </div>
     )
 }

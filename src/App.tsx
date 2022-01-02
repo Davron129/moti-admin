@@ -16,13 +16,13 @@ function App() {
     <div className="App">
         <Routes>
             <Route index element={<Test />} />
-            <Route path={'login'} element={<Login />} />
+            <Route path={'/login'} element={<Login />} />
             <Route element={<InnerComponent />} >
-                <Route path={'order'} element={<Private><Order /></Private>} />
-                <Route path={'booking'} element={<Private><Booking /></Private>} />
-                <Route path={'categories'} element={<Private><Dashboard /></Private>} />
-                <Route path={'category/add'} element={<Private><CategoryAdd /></Private>} />
-                <Route path={'food/edit/:id'} element={<Private><CategoryEdit /></Private>} />
+                <Route path={'/order'} element={<Private><Order /></Private>} />
+                <Route path={'/booking'} element={<Private><Booking /></Private>} />
+                <Route path={'/categories'} element={<Private><Dashboard /></Private>} />
+                <Route path={'/category/add'} element={<Private><CategoryAdd /></Private>} />
+                <Route path={'/food/edit/:id'} element={<Private><CategoryEdit /></Private>} />
             </Route>
         </Routes>
     </div>
