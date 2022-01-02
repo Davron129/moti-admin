@@ -1,15 +1,18 @@
-import {useState,  useRef, MutableRefObject, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import DropFileInput from '../../components/DropFileInput/index';
 import Api from "../../utils/network/api";
+import { useNavigate } from "react-router-dom";
+import { useState,  useRef, MutableRefObject, FormEvent } from "react";
+import { ToastContainer } from "react-toastify";
+
+import { errorMsg } from "../../utils/functions/toast";
+import DropFileInput from '../../components/DropFileInput/index';
 
 import Styles from './CategoryStyles.module.css';
 
 const CategoryAdd = () => {
     const navigate = useNavigate();
-    const imageRef = useRef() as MutableRefObject<HTMLImageElement>;
     const [ name, setName ] = useState<string>("");
     const [ price, setPrice ] = useState<number>(0);
+    const imageRef = useRef() as MutableRefObject<HTMLImageElement>;
     const [ imageFile, setImageFile ] = useState<File | undefined>();
 
     const handleSubmit = (e: FormEvent) => {
@@ -17,13 +20,19 @@ const CategoryAdd = () => {
         const imageFormData: FormData = new FormData();
         imageFile && imageFormData.append("file", imageFile);
 
-        new Api()
-            .saveFile(imageFormData)
-            .then(({data}) => {
-                new Api()
-                    .addFood(localStorage.getItem("cat_id"), data.data.hashId, name, price)
-                    .then(() => { navigate("/categories") })
-            })
+        if(price !== 0 && name !== "") {
+            new Api()
+                .saveFile(imageFormData)
+                .then(({data}) => {
+                    new Api()
+                        .addFood(localStorage.getItem("cat_id"), data.data.hashId, name, price)
+                        .then(() => { navigate("/categories") })
+                })
+        } else {
+            price === 0 && errorMsg("Category price must not be 0");
+            name === "" && errorMsg("Category name must not be empty");
+        }
+
     }
 
     return (
@@ -82,7 +91,20 @@ const CategoryAdd = () => {
                     </div>
                 </div>
             </div>
+
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </div>
+        
     );
 }
 

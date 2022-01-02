@@ -3,8 +3,10 @@ import Api from '../../utils/network/api';
 import { API } from '../../utils/constants';
 import { useState, useEffect, useRef, MutableRefObject } from 'react';
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { errorMsg, succesMsg } from '../../utils/functions/toast';
 // modals
 import CategoryActions from './CategoryActions';
 import AddCategory from '../../components/modals/AddCategory';
@@ -18,9 +20,9 @@ import Styles from './Dashboard.module.css';
 import CategoryCard from '../../components/CategoryCard';
 
 interface Categoryinterface {
+    foods: []
     id: string;
     name: string;
-    foods: []
 };
 
 interface ImageInterface {
@@ -28,26 +30,24 @@ interface ImageInterface {
 }
 
 interface FoodInterface {
-    creatAt: number;
     id: string;
-    image: ImageInterface;
-    name: string;
     sum: number;
+    name: string;
+    creatAt: number;
+    image: ImageInterface;
 }
 
 const Dashboard = () => {
-    const categoryRef = useRef() as MutableRefObject<HTMLInputElement>;
+    const [ progress, setProgress ] = useState<number>(0); // progress for file upload
     const [ actionName, setActionName ] = useState<string>("");
-    const [ selectedId, setSelectedId ] = useState<string>("");
-    const [ categoryName, setCategoryName ] = useState<string>("");
+    const [ selectedId, setSelectedId ] = useState<string>(""); // selected category's id
+    const [ categoryName, setCategoryName ] = useState<string>(""); 
     const [ isEditable, setIsEditable ] = useState<boolean>(false);
-    const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
+    const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false); 
+    const categoryRef = useRef() as MutableRefObject<HTMLInputElement>;
     const [ isOverlayOpen, setIsOverlayOpen ] = useState<boolean>(false);
     const [ isDateChanged, setIsDataChanged ] = useState<boolean>(false);
     const [ categories, setCategories ] = useState<Categoryinterface[]>([]);
-    // food delete qilguncha model qoshilishi kerak
-    // const [ isFoodDeletable, setIsFoodDeletable ] = useState<boolean>(false);
-    const [ progress, setProgress ] = useState<number>(0);
     const [ categoryFoods, setCategoryFoods ] = useState<FoodInterface[]>([]);
     const [ isCategoryDeletable, setIsCategoryDeletable ] = useState<boolean>(false);
 // get Categories
@@ -63,26 +63,6 @@ const Dashboard = () => {
                 }
             } )
     }
-// toastlarni boshqa funksiyaga olish kerak
-    const errorMsg = (msg: string) => toast.error(msg, {
-        position: "top-right",
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-    });
-
-    const succesMsg = (msg:string) => toast.success(msg, {
-        position: "top-right",
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-    })
-    
-
 // Add Category
     const addCategory = (name: string) => {
         const imageFormData: FormData = new FormData();
@@ -111,8 +91,6 @@ const Dashboard = () => {
         } else {
             errorMsg("File not uploaded");
         }
-
-       
     }
 // Edit Category
     const editCategory = (name: string) => {
@@ -145,7 +123,7 @@ const Dashboard = () => {
         e.stopPropagation();
         (e.target as Element).getAttribute("data-overlay") && setIsOverlayOpen(false);
     }
-
+// handle category click
     const handleClickCategory = (category: Categoryinterface) => {
         if(isOverlayOpen) {
             actionName === "edit" && setIsEditable(true);
@@ -188,12 +166,12 @@ const Dashboard = () => {
                             {
                                 categoryFoods.map((food: FoodInterface) => (
                                     <CategoryCard 
+                                        id={food.id}
                                         key={food.id}
                                         name={food.name}
                                         price={food.sum}
-                                        imageSrc={food.image && food.image.hashId && `${API}/api/auth/file/preview/${food.image.hashId}`}
                                         deleteFunc={() => deleteFood(food.id)}
-                                        id={food.id}
+                                        imageSrc={food.image && food.image.hashId && `${API}/api/auth/file/preview/${food.image.hashId}`}
                                     />
                                 ))
                             }
@@ -201,7 +179,6 @@ const Dashboard = () => {
                         </>
                     )
                 }
-                    
             </div>
 
             { isModalOpen && <AddCategory 
@@ -219,8 +196,7 @@ const Dashboard = () => {
                 className={Styles.overlay} 
                 onClick={(e) => closeOverlay(e)} 
                 data-overlay={true}>
-            </div>
-            }
+            </div>}
             { isCategoryDeletable && <ConfirmModal 
                 closeModal={setIsCategoryDeletable} 
                 acceptFunc={() => deleteCategory(selectedId)} 
