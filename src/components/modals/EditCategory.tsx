@@ -5,6 +5,7 @@ import { BiCloudUpload } from 'react-icons/bi';
 import Styles from './ModalStyles.module.css';
 
 type AddProps =  {
+    catImg: string;
     catName: string;
     progress: number;
     editFunc: Function;
@@ -12,7 +13,8 @@ type AddProps =  {
     fileRef: MutableRefObject<HTMLInputElement>;
 }
 
-const EditCategory = ({ editFunc, closeModal, catName, fileRef, progress }: AddProps) => {
+const EditCategory = ({ editFunc, closeModal, catName, fileRef, progress, catImg }: AddProps) => {
+    const imageRef = useRef() as MutableRefObject<HTMLImageElement>;
     const [ name, setName ] = useState<string>(catName);
 
     const handleCloseModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
@@ -38,13 +40,21 @@ const EditCategory = ({ editFunc, closeModal, catName, fileRef, progress }: AddP
                     <div style={{ marginBottom: "10px"}}>
                             <label style={{ margin: "0 auto", display: "grid", placeItems: "center"}}>
                                 <div className={Styles.img__wrapper}>
-                                    <BiCloudUpload color="#54A75C" />
+                                    <img src={`http://104.131.32.51:8081/api/auth/file/preview/${catImg}`} alt="" ref={imageRef} />
+                                    <div className={Styles.icon__wrapper}>
+                                        <BiCloudUpload color="#54A75C" />
+                                    </div>
                                 </div>
                                 <input 
                                     type="file"
                                     accept="image/*"
                                     ref={fileRef}
                                     style={{ display: "none" }}
+                                    onChange={(e) => {
+                                        if(e.target.files) {
+                                            imageRef.current.src = URL.createObjectURL(e.target.files[0])
+                                        }
+                                    }}
                                 />
                                 <span>
                                     {

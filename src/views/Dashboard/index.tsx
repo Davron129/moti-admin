@@ -45,7 +45,8 @@ const Dashboard = () => {
     const [ imageHash, setImageHash ] = useState<string>("")
     const [ actionName, setActionName ] = useState<string>("");
     const [ selectedId, setSelectedId ] = useState<string>(""); // selected category's id
-    const [ categoryName, setCategoryName ] = useState<string>(""); 
+    const [ categoryImg, setCategoryImg ] = useState<string>("");
+    const [ categoryName, setCategoryName ] = useState<string>("");
     const [ isEditable, setIsEditable ] = useState<boolean>(false);
     const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false); 
     const categoryRef = useRef() as MutableRefObject<HTMLInputElement>;
@@ -159,13 +160,14 @@ const Dashboard = () => {
         if(isOverlayOpen) {
             actionName === "edit" && setIsEditable(true);
             actionName === "delete" && setIsCategoryDeletable(true);
-            setCategoryName(category.name);
             setIsOverlayOpen(false);
             setSelectedId(category.id);
+            setCategoryName(category.name);
             setImageHash(category.image.hashId);
+            setCategoryImg(category.image.hashId);
         }
-        localStorage.setItem("cat_id", category.id);
         setCategoryFoods(category.foods);
+        localStorage.setItem("cat_id", category.id);
     }
 
     useEffect(() => {
@@ -222,7 +224,8 @@ const Dashboard = () => {
             { isEditable && <EditCategory 
                 closeModal={setIsEditable} 
                 editFunc={editCategory} 
-                catName={categoryName}  
+                catName={categoryName}
+                catImg={categoryImg}  
                 progress={progress}
                 fileRef={categoryRef}
             />}

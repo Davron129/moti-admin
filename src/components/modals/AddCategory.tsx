@@ -1,4 +1,4 @@
-import { FormEvent, useState, MutableRefObject } from "react";
+import { FormEvent, useState, useRef, MutableRefObject } from "react";
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { BiCloudUpload } from "react-icons/bi";
 
@@ -12,6 +12,7 @@ interface AddProps {
 }
 
 const AddCategory = ({ closeModal, addFunc, fileRef, progress }: AddProps) => {
+    const imageRef = useRef() as MutableRefObject<HTMLImageElement>;
     const [ name, setName ] = useState<string>("");
 
     const handleCloseModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
@@ -40,19 +41,22 @@ const AddCategory = ({ closeModal, addFunc, fileRef, progress }: AddProps) => {
                         <div style={{ marginBottom: "10px"}}>
                             <label style={{ margin: "0 auto", display: "grid", placeItems: "center"}}>
                                 <div className={Styles.img__wrapper}>
-                                    <BiCloudUpload color="#54A75C" />
+                                    <img src="" alt="" ref={imageRef} />
+                                    <div className={Styles.icon__wrapper}>
+                                        <BiCloudUpload color="#54A75C" />
+                                    </div>
                                 </div>
                                 <input 
                                     type="file"
                                     accept="image/*"
                                     ref={fileRef}
                                     style={{ display: "none" }}
+                                    onChange={(e) => {
+                                        if(e.target.files) {
+                                            imageRef.current.src = URL.createObjectURL(e.target.files[0])
+                                        }
+                                    }}
                                 />
-                                <span>
-                                    {
-                                        fileRef?.current?.files && fileRef.current.files[0]?.name
-                                    }
-                                </span>
                             </label>
                         </div>
                         {
