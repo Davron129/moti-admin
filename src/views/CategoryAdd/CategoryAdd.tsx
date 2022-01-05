@@ -20,7 +20,7 @@ const CategoryAdd = () => {
         const imageFormData: FormData = new FormData();
         imageFile && imageFormData.append("file", imageFile);
 
-        if(price !== 0 && name !== "") {
+        if(price !== 0 && name !== "" && imageFile) {
             new Api()
                 .saveFile(imageFormData)
                 .then(({data}) => {
@@ -30,6 +30,7 @@ const CategoryAdd = () => {
                 })
         } else {
             price === 0 && errorMsg("Category price must not be 0");
+            !imageFile && errorMsg("Category Image was not uploaded");
             name === "" && errorMsg("Category name must not be empty");
         }
 
