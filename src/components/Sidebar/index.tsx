@@ -1,8 +1,12 @@
+import { useDispatch } from "react-redux";
 import { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+
 import { BiCategory } from 'react-icons/bi'
 import { GiHotMeal } from 'react-icons/gi';
 import { IconType } from "react-icons";
+
 import {
     SidebarBrand,
     SidebarItem,
@@ -10,12 +14,12 @@ import {
     ImageWrapper
 } from './SidebarComponents';
 
-import Styles from './SidebarStyles.module.css';
 import Logo from '../../assets/images/logo.png';
+import Styles from './SidebarStyles.module.css';
 
-import SockJS from "sockjs-client";
-import { useDispatch } from "react-redux";
 import { API } from "../../utils/constants";
+import { newBooking, newOrder } from "../../utils/functions/toast";
+import SockJS from "sockjs-client";
 const Stomp = require('stompjs');
 
 interface SideItems {
@@ -30,11 +34,6 @@ const sidebarItems: SideItems[] = [
         icon: BiCategory,
         link: "/categories"
     },
-    // {
-    //     content: "Taomlar",
-    //     icon: GiHotMeal,
-    //     link: "/foods"
-    // },
     {
         content: "Заказы",
         icon: GiHotMeal,
@@ -58,11 +57,13 @@ const Sidebar = () => {
             const stompClient = Stomp.over(sock);
             stompClient.connect({}, function() {
                 stompClient.subscribe("/topic/booking", function(data: any) {
-                    dispatch({ type: "BOOKED", payload: true })
+                    dispatch({ type: "BOOKED", payload: true });
+                    newBooking();
                 })
 
                 stompClient.subscribe("/topic/order", function(data: any) {
-                    dispatch({ type: "ORDERED", payload: true })
+                    dispatch({ type: "ORDERED", payload: true });
+                    newOrder();
                 })
             })
         }
@@ -92,6 +93,15 @@ const Sidebar = () => {
                     }
                 </ul>
             </SidebarMenu>
+            <ToastContainer
+                position="top-right"
+                autoClose={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+            />
         </div>
     )
 }
