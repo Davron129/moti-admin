@@ -1,7 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 // import { Link } from 'react-router-dom';
-import Api from "../../utils/network/api";
 import { useSelector } from "react-redux";
+
+import { succesMsg } from "../../utils/functions/toast";
+
+import ConfirmModal from "../../components/modals/ConfirmModal";
+import Api from "../../utils/network/api";
+import { BiTrash } from "react-icons/bi";
 
 import "./Booking.css"
 
@@ -19,25 +24,53 @@ interface RootState {
 
 const Booking = () => {
     const isMounted = useRef<boolean>(true);
+    const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
     const [ bookings, setBookings ] = useState<BookingInterface[]>([]);
+    const [ selectedBooking, setSelectedBooking ] = useState<string>("");
     const isBookingChanged = useSelector((state: RootState) => state.booking);
 
-    useEffect(() => {
+    const getBookings = () => {
         new Api()
             .getBookings()
             .then(({data}) => {
                 if(isMounted.current) {
+                    console.log("ketdi")
                     setBookings(data.data)
                 }
             })
+    }
+
+    const deleteBooking = (id: string) => {
+        new Api()
+            .deleteBooking(id)
+            .then(() => {
+                getBookings();
+                setIsModalOpen(false);
+                succesMsg("Booking deleted succesfully");
+            })
+    }
+
+    const handleClick = (id: string) => {
+        setIsModalOpen(true);
+        setSelectedBooking(id);
+    }
+
+    useEffect(() => {
+        isMounted.current = true;
+        getBookings();
+        
         return () => {
             isMounted.current = false;
         }
     }, [isBookingChanged])
 
-    // const [ computers, setComputers ] = useState([]);
-    // const [ isMounted, setIsMounted ] = useState(true);
-    // const [ bookingList, setBookingList ] = useState([]);
+    const changeBookingStatus = (id: string) => {
+        new Api()
+            .changeBookingStatus(id)
+            .then(({data}) => {
+                getBookings();
+            })
+    } 
 
     return (
         <>
@@ -53,6 +86,7 @@ const Booking = () => {
                                 <th>Phone Number</th>
                                 <th>Descripton</th>
                                 <th>Status</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -61,8 +95,24 @@ const Booking = () => {
                                     <tr key={booking.id}>
                                         <td>{ index + 1 }</td>
                                         <td>{ booking.phone }</td>
-                                        <td>{ `${booking.description}` }</td>
-                                        <td>{ booking.active ? "Active" : "aktiv emas" }</td>
+                                        <td>
+                                            <p className="description">
+                                                { `${booking.description}` }
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <div 
+                                                className={`status ${booking.active && "active"}`}
+                                                onClick={() => changeBookingStatus(booking.id)}    
+                                            >
+                                                <span></span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="icon__wrapper" onClick={() => handleClick(booking.id)}>
+                                                <BiTrash />
+                                            </div>
+                                        </td>
                                     </tr>
                                 ))
                             }
@@ -70,6 +120,11 @@ const Booking = () => {
                     </table>
                 </div>
             </section>
+            { isModalOpen && <ConfirmModal 
+                modalText="Do yo want to delete booking?"
+                closeModal={setIsModalOpen}
+                acceptFunc={() => deleteBooking(selectedBooking)}    
+            /> }
         </>
     )
 }

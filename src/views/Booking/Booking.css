@@ -107,22 +107,56 @@ tr td:last-child {
     align-items: center;
 }
 
-.status {
-    padding: 4px 16px;
-    font-size: 12px;
-    line-height: 12px;
-    border-radius: 20px;
-    outline: none;
-    color: #FFFFFF;
-    font-weight: bold;
+.section__table .description {
+    max-width: 300px;
 }
 
-.status__true {
-    background-color: #f93e3e;
+.section__table .status {
+    width: 40px;
+    height: 22px;
+    border-radius: 11px;
+    background-color: #C8C9CF;
+    transition: .3s ease-in-out;
+    cursor: pointer;
 }
 
-.status__false {
-    background-color: #61affe;
+.section__table .status span {
+    width: 16px;
+    height: 16px;
+    margin: 3px 0 0 3px;
+    border-radius: 50%;
+    background-color: #FFF;
+    display: inline-block;
+    transition: .3s ease-in-out;
+}
+
+.section__table .status.active {
+    background-color: #54A75C;
+    transition: .3s ease-in-out;
+}
+
+.section__table .status.active span {
+    margin: 3px 0 0 21px;
+    transition: .3s ease-in-out;
+}
+
+.section__table .icon__wrapper {
+    width: 22px;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: .3s ease-in-out;
+    opacity: 1;
+}
+
+.section__table .icon__wrapper:active {
+    transition: .3s ease-in-out;
+    opacity: .6;
+    transform: scale(0.9);
+}
+
+.section__table .icon__wrapper:hover svg {
+    fill: red;
+    transition: .3s ease-in-out;
 }
 
 .booking--expired svg{

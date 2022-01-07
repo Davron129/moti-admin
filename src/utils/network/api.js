@@ -89,9 +89,22 @@ class Api {
         return axios.get('/admin/booking/get-all', { headers: this.headers })
     }
 
+    changeBookingStatus = (id) => {
+        return axios.get(`/admin/booking/change-active/${id}`, { headers: this.headers })
+    }
+
+    deleteBooking = (id) => {
+        return axios.delete(`/admin/booking/delete/${id}`, { headers: this.headers })
+    }
+
     getOrders = () => {
         return axios.get('/admin/order/get-all', { headers: this.headers })
     }
+
+    changeOrderStatus = (id) => {
+        return axios.get(`/admin/order/change-active/${id}`, { headers: this.headers })
+    }
+
 }
 
 export default Api

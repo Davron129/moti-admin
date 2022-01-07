@@ -22,7 +22,7 @@ interface FoodCountInterface {
 interface OrderInterface {
     phone: string;
     id: string;
-    isActive: boolean;
+    active: boolean;
     lan: number;
     lat: number;
     foodCounts: FoodCountInterface[]
@@ -37,11 +37,8 @@ const Order = () => {
     const isMounted = useRef<boolean>(true);
     const isOrderChanged = useSelector((state: RootState) => state.order);
     const [ orders, setOrders ] = useState<OrderInterface[]>([]);
-    // const [ computers, setComputers ] = useState([]);
-    // const [ isMounted, setIsMounted ] = useState(true);
-    // const [ bookingList, setBookingList ] = useState([]);
 
-    useEffect(() => {
+    const getOrders = () => {
         new Api()
             .getOrders()
             .then(({data}) => {
@@ -49,6 +46,21 @@ const Order = () => {
                     setOrders(data.data);
                 }
             })
+    }
+
+    const changeOrderStatus = (id: string) => {
+        new Api()
+            .changeOrderStatus(id)
+            .then(() => {
+                getOrders();
+            })
+    }
+
+    useEffect(() => {
+        isMounted.current = true;
+
+        getOrders();
+
         return () => {
             isMounted.current = false;
         }
@@ -104,7 +116,14 @@ const Order = () => {
                                             </div>
                                         </td>
                                         <td>{ order.foodCounts.reduce((prev: number, el:FoodCountInterface) => prev + (el.count * el.food.sum), 0) } so'm</td>
-                                        <td>{ order.isActive }</td>
+                                        <td>
+                                            <div 
+                                                className={`status ${order.active && "active"}`}
+                                                onClick={() => changeOrderStatus(order.id)}    
+                                            >
+                                                <span></span>
+                                            </div>
+                                        </td>
                                     </tr>
                                 ))
                             }

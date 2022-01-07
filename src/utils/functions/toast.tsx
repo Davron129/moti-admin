@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export const errorMsg = (msg: string) => toast.error(msg, {
+    autoClose: 3000,
     position: "top-right",
     hideProgressBar: false,
     closeOnClick: true,
@@ -11,6 +12,7 @@ export const errorMsg = (msg: string) => toast.error(msg, {
 });
 
 export const succesMsg = (msg:string) => toast.success(msg, {
+    autoClose: 3000,
     position: "top-right",
     hideProgressBar: false,
     closeOnClick: true,
