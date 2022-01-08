@@ -1,13 +1,11 @@
-import axios from 'axios';
 import Api from '../../utils/network/api';
 import { API } from '../../utils/constants';
-import { useState, useEffect, useRef, MutableRefObject } from 'react';
+import { useState, useEffect } from 'react';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { errorMsg, succesMsg } from '../../utils/functions/toast';
-// modals
+// modalscategory
 import CategoryActions from './CategoryActions';
 import AddCategory from '../../components/modals/AddCategory';
 import ConfirmModal from '../../components/modals/ConfirmModal';
@@ -41,15 +39,18 @@ interface FoodInterface {
 }
 
 const Dashboard = () => {
-    const [ progress, setProgress ] = useState<number>(0); // progress for file upload
-    const [ imageHash, setImageHash ] = useState<string>("")
     const [ actionName, setActionName ] = useState<string>("");
-    const [ selectedId, setSelectedId ] = useState<string>(""); // selected category's id
-    const [ categoryImg, setCategoryImg ] = useState<string>("");
-    const [ categoryName, setCategoryName ] = useState<string>("");
+    const [ selectedCategory, setSelectedCategory ] = useState<Categoryinterface>({
+        foods: [],
+        id: "",
+        name: "",
+        image: {
+            hashId: ""
+        }
+    });
+    
     const [ isEditable, setIsEditable ] = useState<boolean>(false);
     const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false); 
-    const categoryRef = useRef() as MutableRefObject<HTMLInputElement>;
     const [ isOverlayOpen, setIsOverlayOpen ] = useState<boolean>(false);
     const [ isDateChanged, setIsDataChanged ] = useState<boolean>(false);
     const [ categories, setCategories ] = useState<Categoryinterface[]>([]);
@@ -63,75 +64,9 @@ const Dashboard = () => {
                 setCategories(data.data);
                 if(data.data.length !== 0) {
                     setCategoryFoods(data.data[0].foods);
-                    setSelectedId(data.data[0].id);
                     localStorage.setItem("cat_id", data.data[0].id);
                 }
             } )
-    }
-// Add Category
-    const addCategory = (name: string) => {
-        const imageFormData: FormData = new FormData();
-        const file = categoryRef.current.files && categoryRef.current.files[0];
-        if(file) {
-            imageFormData.append("file", file);
-    
-            axios.post('/admin/file/save', imageFormData, {
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem('moti_token')}`,
-                    'content-type': 'multipart/form-data'
-                },
-                onUploadProgress: (data) => { // for progress bar
-                    setProgress(Math.round((100*data.loaded)/ data.total));
-                }
-            })
-            .then(({data}) => {
-                new Api()
-                    .addCategory(data.data.hashId, name)
-                    .then(() => {
-                        setIsModalOpen(false); // close after success
-                        setIsDataChanged(!isDateChanged); // render after data change
-                        succesMsg("Category saved succesfully"); // toast about success
-                    })
-            })
-        } else {
-            errorMsg("File not uploaded");
-        }
-    }
-// Edit Category
-    const editCategory = (name: string) => {
-        const imageFormData: FormData = new FormData();
-        const file = categoryRef.current.files && categoryRef.current.files[0];
-        if(file) {
-            imageFormData.append("file", file);
-    
-            axios.post('/admin/file/save', imageFormData, {
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem('moti_token')}`,
-                    'content-type': 'multipart/form-data'
-                },
-                onUploadProgress: (data) => { // for progress bar
-                    setProgress(Math.round((100*data.loaded)/ data.total));
-                }
-            })
-            .then(({data}) => {
-                new Api()
-                    .editCategory(selectedId, data.data.hashId, name)
-                    .then(() => {
-                        setIsEditable(false); // close after success
-                        setIsDataChanged(!isDateChanged); // render after data change
-                        succesMsg("Category saved succesfully"); // toast about success
-                    })
-            })
-        } else {
-            new Api()
-                .editCategory(selectedId, imageHash, name)
-                .then(() => {
-                    setIsEditable(false);
-                    setIsDataChanged(!isDateChanged);
-                    succesMsg("Category editted succesfully"); // toast about success
-
-                })
-        }
     }
 // delete Category
     const deleteCategory = (id: string) => {
@@ -161,10 +96,7 @@ const Dashboard = () => {
             actionName === "edit" && setIsEditable(true);
             actionName === "delete" && setIsCategoryDeletable(true);
             setIsOverlayOpen(false);
-            setSelectedId(category.id);
-            setCategoryName(category.name);
-            setImageHash(category.image.hashId);
-            setCategoryImg(category.image.hashId);
+            setSelectedCategory(category);
         }
         setCategoryFoods(category.foods);
         localStorage.setItem("cat_id", category.id);
@@ -216,18 +148,13 @@ const Dashboard = () => {
             </div>
 
             { isModalOpen && <AddCategory 
-                closeModal={setIsModalOpen} 
-                addFunc={addCategory} 
-                fileRef={categoryRef}
-                progress={progress}
+                closeModal={setIsModalOpen}
+                handleDataChange={setIsDataChanged}
             /> }
             { isEditable && <EditCategory 
-                closeModal={setIsEditable} 
-                editFunc={editCategory} 
-                catName={categoryName}
-                catImg={categoryImg}  
-                progress={progress}
-                fileRef={categoryRef}
+                closeModal={setIsEditable}
+                handleDataChange={setIsDataChanged} 
+                category={selectedCategory}
             />}
             { isOverlayOpen && <div 
                 className={Styles.overlay} 
@@ -236,8 +163,8 @@ const Dashboard = () => {
             </div>}
             { isCategoryDeletable && <ConfirmModal 
                 closeModal={setIsCategoryDeletable} 
-                acceptFunc={() => deleteCategory(selectedId)} 
-                modalText={`Do you want to delete category ${categoryName}?`}
+                acceptFunc={() => deleteCategory(selectedCategory.id)} 
+                modalText={`Do you want to delete category ${selectedCategory.name}?`}
             />}
             <ToastContainer
                 position="top-right"

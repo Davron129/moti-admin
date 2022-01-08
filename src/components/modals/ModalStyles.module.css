@@ -13,12 +13,37 @@
     z-index: 30;
 }
 
+.sideModal {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    z-index: 30;
+    overflow: hidden;
+}
+
 .modal__body {
     width: 300px;
     padding: 15px 30px;
     background-color: var(--white);
     border-radius: 20px;
     position: relative;
+}
+
+.sideModal__body {
+    width: 300px;
+    height: 100vh;
+    padding: 8px 16px;
+    background-color: var(--white); 
+    z-index: 40;
+    animation: openSideModal 0.3s ease-in-out 0.05s alternate;
+    animation-fill-mode: forwards;
+    opacity: 0;
 }
 
 .modal__close {
@@ -116,4 +141,32 @@
     transform: translate(-50%, -50%);
     transition: .3s ease-in-out;
     opacity: 0;
+}
+
+.loader {
+    animation: loader 1s linear infinite;
+    display: inline-block;
+}
+
+@keyframes openSideModal {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    /* 50% {
+        transform: rotate(180deg);
+    } */
+    to {
+        transform: rotate(360deg);
+    }
 }
