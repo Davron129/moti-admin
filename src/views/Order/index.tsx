@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ImLocation } from 'react-icons/im';
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import Api from "../../utils/network/api";
 import Styles from './Order.module.css';
 
@@ -58,6 +59,7 @@ const Order = () => {
 
     useEffect(() => {
         isMounted.current = true;
+        // toast.dismiss()
 
         getOrders();
 

@@ -9,13 +9,16 @@ type AddProps =  {
 }
 
 const ConfirmModal = ({ closeModal, acceptFunc, modalText }: AddProps) => {
-
     const handleCloseModal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
         e.stopPropagation();
         if((e.target as Element).getAttribute("data-modal")) {
             closeModal(false);
         }
     }
+
+    
+
+
 
     return (
         <div className={Styles.modal} onClick={(e) => handleCloseModal(e)} data-modal={true} >
@@ -28,6 +31,7 @@ const ConfirmModal = ({ closeModal, acceptFunc, modalText }: AddProps) => {
                     <button 
                         className={`${Styles.modal__btn} ${Styles.modal__accept}`}
                         onClick={() => acceptFunc() }    
+                        autoFocus
                     >
                         Yes
                     </button>

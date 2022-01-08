@@ -22,6 +22,7 @@ export const succesMsg = (msg:string) => toast.success(msg, {
 })
 
 export const newOrder = () => toast.success(NewOrderLink, {
+    toastId: `newOrder${Date.now()}`,
     position: "top-right",
     autoClose: false,
     hideProgressBar: false,
@@ -32,6 +33,7 @@ export const newOrder = () => toast.success(NewOrderLink, {
 });
 
 export const newBooking = () => toast.success(NewBookingLink, {
+    toastId: `newBooking`,
     position: "top-right",
     autoClose: false,
     hideProgressBar: false,

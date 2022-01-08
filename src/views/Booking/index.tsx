@@ -33,10 +33,7 @@ const Booking = () => {
         new Api()
             .getBookings()
             .then(({data}) => {
-                if(isMounted.current) {
-                    console.log("ketdi")
-                    setBookings(data.data)
-                }
+                setBookings(data.data)
             })
     }
 
