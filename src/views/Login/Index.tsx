@@ -1,20 +1,24 @@
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginBg from '../../assets/images/motibg.jpg';
+import { ImSpinner9 } from 'react-icons/im';
 import Api from '../../utils/network/api';
 import "./login.css";
 
 const Login = () => {
     const navigate = useNavigate();
+    const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const [ login, setLogin ] = useState<string>("");
     const [ password, setPassword ] = useState<string>("");
 
     const handleSubmit = (e: FormEvent) => {
+        setIsLoading(true);
         e.preventDefault()
         new Api()
             .login(login, password)
             .then(({data}) => {
                 localStorage.setItem('moti_token', data.token);
+                setIsLoading(false);
             })
             .then(() => {
                 navigate('/categories')
@@ -51,7 +55,15 @@ const Login = () => {
                             />
                         </div>
                         <div className='form__btn'>
-                            <button><span>Submit</span></button>
+                            <button
+                                disabled={isLoading}
+                            >
+                                {
+                                    !isLoading ? "Submit" : (<span>
+                                        <ImSpinner9 className="loader" />
+                                    </span>) 
+                                }    
+                            </button>
                         </div>
                     </form>
                 </div>

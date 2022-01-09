@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { ImLocation } from 'react-icons/im';
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import Api from "../../utils/network/api";
 import Styles from './Order.module.css';
 
@@ -59,8 +58,6 @@ const Order = () => {
 
     useEffect(() => {
         isMounted.current = true;
-        // toast.dismiss()
-
         getOrders();
 
         return () => {
@@ -73,9 +70,6 @@ const Order = () => {
             <section className="section__card mb-3">
                 <div className="section__header">
                     <h3>Order List</h3>
-                    {/* <Link to="add">
-                        <button>Booking List</button>
-                    </Link> */}
                 </div>
                 <div className="section__table table__responsive">
                     <table width="100%">

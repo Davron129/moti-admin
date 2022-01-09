@@ -2,6 +2,7 @@ import Api from "../../utils/network/api";
 import { useNavigate } from "react-router-dom";
 import { useState,  useRef, MutableRefObject, FormEvent } from "react";
 import { ToastContainer } from "react-toastify";
+import { ImSpinner9 } from 'react-icons/im';
 
 import { errorMsg } from "../../utils/functions/toast";
 import DropFileInput from '../../components/DropFileInput/index';
@@ -12,6 +13,7 @@ const CategoryAdd = () => {
     const navigate = useNavigate();
     const [ name, setName ] = useState<string>("");
     const [ price, setPrice ] = useState<number>(0);
+    const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const imageRef = useRef() as MutableRefObject<HTMLImageElement>;
     const [ imageFile, setImageFile ] = useState<File | undefined>();
 
@@ -21,11 +23,14 @@ const CategoryAdd = () => {
         imageFile && imageFormData.append("file", imageFile);
 
         if(price !== 0 && name !== "" && imageFile) {
+            setIsLoading(true);
+
             new Api()
                 .saveFile(imageFormData)
                 .then(({data}) => {
                     new Api()
                         .addFood(localStorage.getItem("cat_id"), data.data.hashId, name, price)
+                        .then(() => { setIsLoading(false) })
                         .then(() => { navigate("/categories") })
                 })
         } else {
@@ -73,7 +78,11 @@ const CategoryAdd = () => {
                         />
                     </div>
                     <div className={Styles.form__group}>
-                        <button>Save</button>
+                        <button disabled={isLoading}>
+                            {
+                                !isLoading ? "Save" : <span className={Styles.loader}><ImSpinner9 /></span>
+                            }
+                        </button>
                     </div>
                 </form>
             </div>

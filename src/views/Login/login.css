@@ -64,8 +64,29 @@
     cursor: pointer;
 }
 
-.form__btn button:active {
+.form__btn button:active, 
+.form__btn button:disabled {
     transform: scale(0.95);
     opacity: 0.7;
     transition: .3s ease-in-out;
+}
+
+.form__btn button:disabled {
+    cursor: progress;
+}
+
+
+
+.form__btn .loader {
+    animation: loader 1s linear infinite;
+    display: inline-block;
+}
+
+@keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

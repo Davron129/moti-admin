@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-// import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 import { succesMsg } from "../../utils/functions/toast";
@@ -64,7 +63,7 @@ const Booking = () => {
     const changeBookingStatus = (id: string) => {
         new Api()
             .changeBookingStatus(id)
-            .then(({data}) => {
+            .then(() => {
                 getBookings();
             })
     } 

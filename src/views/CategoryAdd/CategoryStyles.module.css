@@ -41,6 +41,30 @@
     cursor: pointer;
 }
 
+.category__form button:active, 
+.category__form button:disabled {
+    transform: scale(0.95);
+    opacity: .7;
+}
+
+.category__form button:disabled {
+    cursor: progress;
+}
+
+.category__form .loader {
+    animation: loader 1s linear infinite;
+    display: inline-block;
+}
+
+@keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 .category__card {
     max-width: 400px;
     overflow: hidden;
