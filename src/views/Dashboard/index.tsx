@@ -35,6 +35,7 @@ interface FoodInterface {
     sum: number;
     name: string;
     creatAt: number;
+    description: string;
     image: ImageInterface;
 }
 
@@ -136,6 +137,7 @@ const Dashboard = () => {
                                         key={food.id}
                                         name={food.name}
                                         price={food.sum}
+                                        description={food.description}
                                         deleteFunc={() => deleteFood(food.id)}
                                         imageSrc={food.image && food.image.hashId && `${API}/api/auth/file/preview/${food.image.hashId}`}
                                     />

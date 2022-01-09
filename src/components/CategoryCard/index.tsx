@@ -9,13 +9,14 @@ import Styles from '../../views/CategoryAdd/CategoryStyles.module.css';
 type CategoryCardProps = {
     name: string;
     price: number;
+    description: string;
     imageRef?: RefObject<HTMLImageElement>;
     imageSrc?: string;
     deleteFunc?: Function;
     id?: string
 }
 
-const CategoryCard = ({ name, price, imageRef, imageSrc, deleteFunc, id }: CategoryCardProps) => {
+const CategoryCard = ({ name, price, imageRef, imageSrc, deleteFunc, id, description }: CategoryCardProps) => {
     return (
         <div className={Styles.category__card}>
             <div className={Styles.category__img}>
@@ -24,6 +25,9 @@ const CategoryCard = ({ name, price, imageRef, imageSrc, deleteFunc, id }: Categ
             <div className={Styles.card__body}>
                 <div className={Styles.category__name}>
                     <span>{name}</span>
+                </div>
+                <div className={Styles.category__description}>
+                    <span>{description}</span>
                 </div>
                 <div className={Styles.category__price}>
                     {

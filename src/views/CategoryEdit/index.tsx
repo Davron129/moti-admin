@@ -1,19 +1,22 @@
 import {useState,  useRef, MutableRefObject, FormEvent, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Api from "../../utils/network/api";
+import { ImSpinner9 } from "react-icons/im";
 
 import { API } from "../../utils/constants";
 import DropFileInput from '../../components/DropFileInput/index';
 import Styles from './../CategoryAdd/CategoryStyles.module.css';
 
 const CategoryEdit = () => {
-    const isMounted = useRef<boolean>(true);
     const params = useParams();
     const navigate = useNavigate();
-    const imageRef = useRef() as MutableRefObject<HTMLImageElement>;
+    const isMounted = useRef<boolean>(true);
     const [ name, setName ] = useState<string>("");
     const [ price, setPrice ] = useState<number>(0);
     const [ imageHash, setImageHash ] = useState<string>("");
+    const [ isLoading, setIsLoading ] = useState<boolean>(false);
+    const [ description, setDescription ] = useState<string>("");
+    const imageRef = useRef() as MutableRefObject<HTMLImageElement>;
     const [ imageFile, setImageFile ] = useState<File | undefined>();
 
     const handleSubmit = (e: FormEvent) => {
@@ -21,9 +24,10 @@ const CategoryEdit = () => {
 
         const imageFormData: FormData = new FormData();
         imageFile && imageFormData.append("file", imageFile);
-        // console.log(imageFile)
 
         if(imageFile) {
+            setIsLoading(true);
+
             new Api()
                 .saveFile(imageFormData)
                 .then(({data}) => { 
@@ -36,7 +40,8 @@ const CategoryEdit = () => {
 
     const editFood = (hash: string) => {
         new Api()
-            .editFood(params.id, hash, name, price)
+            .editFood(params.id, hash, name, description, price)
+            .then(() => { setIsLoading(false); })
             .then(() => { navigate("/categories") })
     }
 
@@ -48,6 +53,7 @@ const CategoryEdit = () => {
                     setName(data.data.name);
                     setPrice(data.data.sum);
                     setImageHash(data.data.image.hashId);
+                    setDescription(data.data.description);
                     imageRef.current.src = `${API}/api/auth/file/preview/${data.data.image.hashId}`
                 }    
             })
@@ -75,6 +81,18 @@ const CategoryEdit = () => {
                     </div>
                     <div className={Styles.form__group}>
                         <label>
+                            <span className={Styles.form__label}>Food Description</span>
+                            <input
+                                type="text"
+                                className={Styles.form__input}
+                                placeholder={"Enter Food Description"}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                        </label>
+                    </div>
+                    <div className={Styles.form__group}>
+                        <label>
                             <span className={Styles.form__label}>Food Price</span>
                             <input
                                 type="number"
@@ -93,7 +111,11 @@ const CategoryEdit = () => {
                         />
                     </div>
                     <div className={Styles.form__group}>
-                        <button>Save</button>
+                        <button disabled={isLoading}>
+                            {
+                                !isLoading ? "Save" : <span className={Styles.loader}><ImSpinner9 /></span>
+                            }
+                        </button>
                     </div>
                 </form>
             </div>
@@ -105,6 +127,9 @@ const CategoryEdit = () => {
                     <div className={Styles.card__body}>
                         <div className={Styles.category__name}>
                             <span>{name}</span>
+                        </div>
+                        <div className={Styles.category__description}>
+                            <span>{description}</span>
                         </div>
                         <div className={Styles.category__price}>
                             <span>{price} so'm</span>

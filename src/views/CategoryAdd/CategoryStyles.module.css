@@ -99,9 +99,15 @@
 }
 
 .category__name {
-    margin-bottom: 16px;
     font-size: 18px;
     font-weight: 700;
+    color: var(--text-dark);
+}
+
+.category__description {
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 500;
     color: var(--text-dark);
 }
 

@@ -13,6 +13,7 @@ const CategoryAdd = () => {
     const navigate = useNavigate();
     const [ name, setName ] = useState<string>("");
     const [ price, setPrice ] = useState<number>(0);
+    const [ description, setDescription ] = useState<string>("");
     const [ isLoading, setIsLoading ] = useState<boolean>(false);
     const imageRef = useRef() as MutableRefObject<HTMLImageElement>;
     const [ imageFile, setImageFile ] = useState<File | undefined>();
@@ -29,7 +30,7 @@ const CategoryAdd = () => {
                 .saveFile(imageFormData)
                 .then(({data}) => {
                     new Api()
-                        .addFood(localStorage.getItem("cat_id"), data.data.hashId, name, price)
+                        .addFood(localStorage.getItem("cat_id"), data.data.hashId, name, description, price)
                         .then(() => { setIsLoading(false) })
                         .then(() => { navigate("/categories") })
                 })
@@ -38,7 +39,6 @@ const CategoryAdd = () => {
             !imageFile && errorMsg("Category Image was not uploaded");
             name === "" && errorMsg("Category name must not be empty");
         }
-
     }
 
     return (
@@ -54,6 +54,19 @@ const CategoryAdd = () => {
                                 placeholder={"Enter Food Name"}
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
+                                autoFocus
+                            />
+                        </label>
+                    </div>
+                    <div className={Styles.form__group}>
+                        <label>
+                            <span className={Styles.form__label}>Food Description</span>
+                            <input
+                                type="text"
+                                className={Styles.form__input}
+                                placeholder={"Enter Food Description"}
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
                                 autoFocus
                             />
                         </label>
@@ -94,6 +107,9 @@ const CategoryAdd = () => {
                     <div className={Styles.card__body}>
                         <div className={Styles.category__name}>
                             <span>{name}</span>
+                        </div>
+                        <div className={Styles.category__description}>
+                            <span>{description}</span>
                         </div>
                         <div className={Styles.category__price}>
                             <span>{price} so'm</span>

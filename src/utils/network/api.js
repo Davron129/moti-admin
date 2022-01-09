@@ -51,11 +51,12 @@ class Api {
         )
     }
 
-    addFood = (cat_id, imageHashId, name, sum) => {
+    addFood = (cat_id, imageHashId, name, description, sum) => {
         return axios.post("/admin/food/save", 
             {
-                "categoryId": cat_id,
                 "imageHashId": imageHashId,
+                "description": description,
+                "categoryId": cat_id,
                 "name": name,
                 "sum": sum
             },
@@ -63,11 +64,12 @@ class Api {
         )
     }
 
-    editFood = (cat_id, imageHashId, name, sum) => {
+    editFood = (cat_id, imageHashId, name, description, sum) => {
         return axios.put(`/admin/food/edit/${cat_id}`, 
             {
-                "categoryId": cat_id,
                 "imageHashId": imageHashId,
+                "description": description,
+                "categoryId": cat_id,
                 "name": name,
                 "sum": sum
             },
