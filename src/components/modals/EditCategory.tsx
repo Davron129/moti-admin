@@ -80,7 +80,7 @@ const EditCategory = ({ closeModal, category, handleDataChange }: AddProps) => {
     return (
         <div className={Styles.sideModal} onClick={(e) => handleCloseModal(e)} data-modal={true} >
             <div className={Styles.sideModal__body}>
-                <div className={Styles.modal__title}>Edit Category</div>
+                <div className={Styles.modal__title}>Изменить категорию</div>
                 <span className={Styles.modal__close} onClick={() => closeModal(false)}><AiOutlineCloseCircle /></span>
                 <div className={Styles.modal__content}>
                     <form onSubmit={(e) => handleSubmit(e)} className={Styles.modal__form}>
@@ -125,7 +125,7 @@ const EditCategory = ({ closeModal, category, handleDataChange }: AddProps) => {
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            placeholder="Category Name"    
+                            placeholder="Название категории"    
                             className={Styles.modal__input}
                             autoFocus
                         />
@@ -134,7 +134,7 @@ const EditCategory = ({ closeModal, category, handleDataChange }: AddProps) => {
                             disabled={isLoading}    
                         >
                             {
-                                !isLoading ? "Save" : (<span>
+                                !isLoading ? "Изменять" : (<span>
                                     <ImSpinner9 className={Styles.loader} />
                                 </span>) 
                             }

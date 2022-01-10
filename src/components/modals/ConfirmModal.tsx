@@ -16,10 +16,6 @@ const ConfirmModal = ({ closeModal, acceptFunc, modalText }: AddProps) => {
         }
     }
 
-    
-
-
-
     return (
         <div className={Styles.modal} onClick={(e) => handleCloseModal(e)} data-modal={true} >
             <div className={Styles.modal__body}>
@@ -33,12 +29,12 @@ const ConfirmModal = ({ closeModal, acceptFunc, modalText }: AddProps) => {
                         onClick={() => acceptFunc() }    
                         autoFocus
                     >
-                        Yes
+                        Дa
                     </button>
                     <button   
                         className={`${Styles.modal__btn} ${Styles.modal__decline}`}
                         onClick={() => closeModal(false)}    
-                    >No</button>
+                    >Нет</button>
                 </div>
             </div>
         </div>

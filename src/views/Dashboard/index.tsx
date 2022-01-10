@@ -64,7 +64,11 @@ const Dashboard = () => {
             .then(({data}) => {
                 setCategories(data.data);
                 if(data.data.length !== 0) {
-                    setCategoryFoods(data.data[0].foods);
+                    setCategoryFoods(data.data[0].foods.sort((a: FoodInterface, b: FoodInterface) => {
+                        if(a.creatAt < b.creatAt) return -1;
+                        if(a.creatAt > b.creatAt) return 1;
+                        return 0;
+                    }));
                     localStorage.setItem("cat_id", data.data[0].id);
                 }
             } )

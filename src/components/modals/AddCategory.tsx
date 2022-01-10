@@ -64,7 +64,7 @@ const AddCategory = ({ closeModal, handleDataChange }: AddProps) => {
     return (
         <div className={Styles.sideModal} onClick={(e) => handleCloseModal(e)} data-modal={true} >
             <div className={Styles.sideModal__body}>
-                <div className={Styles.modal__title}>Add Category</div>
+                <div className={Styles.modal__title}>Добавить категорию</div>
                 <span className={Styles.modal__close} onClick={() => closeModal(false)}>
                     <AiOutlineCloseCircle />
                 </span>
@@ -107,7 +107,7 @@ const AddCategory = ({ closeModal, handleDataChange }: AddProps) => {
                             type="text"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            placeholder="Category Name"    
+                            placeholder="Название категории"    
                             className={Styles.modal__input}
                             required
                             autoFocus
@@ -117,7 +117,7 @@ const AddCategory = ({ closeModal, handleDataChange }: AddProps) => {
                             disabled={isLoading}    
                         >
                             {
-                                !isLoading ? "Save" : (<span>
+                                !isLoading ? "Сохранять" : (<span>
                                     <ImSpinner9 className={Styles.loader} />
                                 </span>) 
                             }
