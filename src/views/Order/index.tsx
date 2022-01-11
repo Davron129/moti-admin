@@ -69,18 +69,18 @@ const Order = () => {
         <>
             <section className="section__card mb-3">
                 <div className="section__header">
-                    <h3>Order List</h3>
+                    <h3>Список заказа</h3>
                 </div>
                 <div className="section__table table__responsive">
                     <table width="100%">
                         <thead>
                             <tr>
                                 <th>№</th>
-                                <th>Phone Number</th>
-                                <th>Order</th>
-                                <th>Location</th>
-                                <th>Total</th>
-                                <th>Status</th>
+                                <th>Номер телефона</th>
+                                <th>Заказ</th>
+                                <th>Место заказа</th>
+                                <th>Общая стоимость</th>
+                                <th>Статус</th>
                                 <th></th>
                             </tr>
                         </thead>

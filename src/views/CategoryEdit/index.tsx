@@ -68,11 +68,11 @@ const CategoryEdit = () => {
                 <form onSubmit={(e) => handleSubmit(e)}>
                     <div className={Styles.form__group}>
                         <label>
-                            <span className={Styles.form__label}>Food Name</span>
+                            <span className={Styles.form__label}>Название еды*</span>
                             <input
                                 type="text"
                                 className={Styles.form__input}
-                                placeholder={"Enter Food Name"}
+                                placeholder={"Введите название еды"}
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 autoFocus
@@ -81,11 +81,11 @@ const CategoryEdit = () => {
                     </div>
                     <div className={Styles.form__group}>
                         <label>
-                            <span className={Styles.form__label}>Food Description</span>
+                            <span className={Styles.form__label}>Описание еды</span>
                             <input
                                 type="text"
                                 className={Styles.form__input}
-                                placeholder={"Enter Food Description"}
+                                placeholder={"Введите описание еды"}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
@@ -93,7 +93,7 @@ const CategoryEdit = () => {
                     </div>
                     <div className={Styles.form__group}>
                         <label>
-                            <span className={Styles.form__label}>Food Price</span>
+                            <span className={Styles.form__label}>Цена еды*</span>
                             <input
                                 type="number"
                                 className={Styles.form__input}
@@ -113,7 +113,7 @@ const CategoryEdit = () => {
                     <div className={Styles.form__group}>
                         <button disabled={isLoading}>
                             {
-                                !isLoading ? "Save" : <span className={Styles.loader}><ImSpinner9 /></span>
+                                !isLoading ? "Изменять" : <span className={Styles.loader}><ImSpinner9 /></span>
                             }
                         </button>
                     </div>

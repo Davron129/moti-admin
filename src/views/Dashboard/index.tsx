@@ -170,7 +170,7 @@ const Dashboard = () => {
             { isCategoryDeletable && <ConfirmModal 
                 closeModal={setIsCategoryDeletable} 
                 acceptFunc={() => deleteCategory(selectedCategory.id)} 
-                modalText={`Do you want to delete category ${selectedCategory.name}?`}
+                modalText={`Вы хотите удалить категорию ${selectedCategory.name}?`}
             />}
             <ToastContainer
                 position="top-right"

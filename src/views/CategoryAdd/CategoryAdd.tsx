@@ -35,9 +35,9 @@ const CategoryAdd = () => {
                         .then(() => { navigate("/categories") })
                 })
         } else {
-            price === 0 && errorMsg("Category price must not be 0");
-            !imageFile && errorMsg("Category Image was not uploaded");
-            name === "" && errorMsg("Category name must not be empty");
+            price === 0 && errorMsg("Цена категории не должна быть равна 0");
+            !imageFile && errorMsg("Изображение категории не было загружено");
+            name === "" && errorMsg("Укажите название категории.");
         }
     }
 
@@ -47,11 +47,11 @@ const CategoryAdd = () => {
                 <form onSubmit={(e) => handleSubmit(e)}>
                     <div className={Styles.form__group}>
                         <label>
-                            <span className={Styles.form__label}>Food Name</span>
+                            <span className={Styles.form__label}>Название еды*</span>
                             <input
                                 type="text"
                                 className={Styles.form__input}
-                                placeholder={"Enter Food Name"}
+                                placeholder={"Введите название еды"}
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 autoFocus
@@ -60,11 +60,11 @@ const CategoryAdd = () => {
                     </div>
                     <div className={Styles.form__group}>
                         <label>
-                            <span className={Styles.form__label}>Food Description</span>
+                            <span className={Styles.form__label}>Описание еды</span>
                             <input
                                 type="text"
                                 className={Styles.form__input}
-                                placeholder={"Enter Food Description"}
+                                placeholder={"Введите описание еды"}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 autoFocus
@@ -73,7 +73,7 @@ const CategoryAdd = () => {
                     </div>
                     <div className={Styles.form__group}>
                         <label>
-                            <span className={Styles.form__label}>Food Price</span>
+                            <span className={Styles.form__label}>Цена еды*</span>
                             <input
                                 type="number"
                                 className={Styles.form__input}
@@ -93,7 +93,7 @@ const CategoryAdd = () => {
                     <div className={Styles.form__group}>
                         <button disabled={isLoading}>
                             {
-                                !isLoading ? "Save" : <span className={Styles.loader}><ImSpinner9 /></span>
+                                !isLoading ? "Сохранять" : <span className={Styles.loader}><ImSpinner9 /></span>
                             }
                         </button>
                     </div>
@@ -112,7 +112,7 @@ const CategoryAdd = () => {
                             <span>{description}</span>
                         </div>
                         <div className={Styles.category__price}>
-                            <span>{price} so'm</span>
+                            <span>{price} cум</span>
                         </div>
                     </div>
                 </div>

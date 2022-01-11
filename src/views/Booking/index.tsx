@@ -42,7 +42,7 @@ const Booking = () => {
             .then(() => {
                 getBookings();
                 setIsModalOpen(false);
-                succesMsg("Booking deleted succesfully");
+                succesMsg("Бронирование успешно удалено");
             })
     }
 
@@ -72,17 +72,17 @@ const Booking = () => {
         <>
             <section className="section__card mb-3">
                 <div className="section__header">
-                    <h3>Booking List</h3>
+                    <h3>Список бронирования</h3>
                 </div>
                 <div className="section__table table__responsive">
                     <table width="100%">
                         <thead>
                             <tr>
                                 <th>№</th>
-                                <th>Phone Number</th>
-                                <th>Descripton</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th>Номер телефона</th>
+                                <th>Описание</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
                             </tr>
                         </thead>
                         <tbody>
