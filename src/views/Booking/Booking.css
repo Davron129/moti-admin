@@ -42,24 +42,6 @@
     fill: #AFB0B6;
 }
 
-.section__table .delete-icon:hover {
-    fill: #DD2F6E;
-    transition: .3s linear;
-}
-
-.section__table .edit-icon {
-    width: 18px;
-    height: 18px;
-    margin-right: 12px;
-    cursor: pointer;
-    fill: #AFB0B6;
-}
-
-.section__table .edit-icon:hover {
-    fill: #DD2F6E;
-    transition: .3s linear;
-}
-
 .table__responsive {
     width: 100%;
     overflow-x: auto;
@@ -143,7 +125,7 @@ tr td:last-child {
 .section__table .icon__wrapper {
     width: 22px;
     margin: 0 auto;
-    cursor: pointer;
+    cursor: pointer ;
     transition: .3s ease-in-out;
     opacity: 1;
 }
@@ -161,4 +143,37 @@ tr td:last-child {
 
 .booking--expired svg{
     fill: rgb(249,62,62);
+}
+
+@media (max-width: 576px) {
+    .section__header h3 {
+        font-size: 14px;
+    }
+
+    thead th {
+        font-size: 12px;
+    }
+
+    td {
+        font-size: .7rem;
+    }
+
+    .section__table .status {
+        width: 30px;
+        height: 16px;
+    }
+
+    .section__table .status span {
+        width: 12px;
+        height: 12px;
+        margin: 2px 0 0 2px;
+    }
+
+    .section__table .status.active span {
+        margin: 2px 0 0 16px;
+    }
+
+    .section__table .icon__wrapper {
+        width: 16px;
+    }
 }

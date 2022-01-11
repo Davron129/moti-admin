@@ -3,8 +3,9 @@ import { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 
-import { BiCategory } from 'react-icons/bi'
+import { BiCategory } from 'react-icons/bi';
 import { GiHotMeal } from 'react-icons/gi';
+import { FiMenu } from 'react-icons/fi';
 import { IconType } from "react-icons";
 
 import {
@@ -46,7 +47,7 @@ const sidebarItems: SideItems[] = [
     },
 ]
 
-const Sidebar = () => {
+const Sidebar = ({ isWide, setIsWide }: { isWide: boolean, setIsWide: Function}) => {
     const isMounted = useRef<boolean>(true);
     const dispatch = useDispatch();
 
@@ -73,17 +74,22 @@ const Sidebar = () => {
     }, [dispatch])
 
     return (
-        <div className={Styles.sidebar}>
+        <div className={`${Styles.sidebar} ${ isWide && Styles.wide }`}>
             <SidebarBrand>
-                <ImageWrapper>
-                    <img src={Logo} alt="Moti Logo" />
-                </ImageWrapper>
+                {
+                    !isWide && <ImageWrapper>
+                        <img src={Logo} alt="Moti Logo" onClick={() => setIsWide((prev: boolean) => !prev)} />
+                    </ImageWrapper>
+                }
+                <div className={Styles.burger} onClick={() => setIsWide((prev: boolean) => !prev)}>
+                    <FiMenu />
+                </div>
             </SidebarBrand>
             <SidebarMenu>
                 <ul className={Styles.sidebar__ul}>
                     {
                         sidebarItems.map(item => (
-                            <SidebarItem key={item.content}>
+                            <SidebarItem key={item.content} onClick={() => setIsWide(true)}>
                                 <NavLink to={item.link} className={Styles.sidebar__link} >
                                     <div className={Styles.sidebar__icon}><item.icon width={20} fill="#777D82" /></div>
                                     <span className={Styles.item__text}>{ item.content }</span>

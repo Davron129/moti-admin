@@ -92,7 +92,7 @@ const Booking = () => {
                                         <td>{ index + 1 }</td>
                                         <td>{ booking.phone }</td>
                                         <td>
-                                            <p className="description">
+                                            <p className="description" style={{ whiteSpace: "pre-line"}}>
                                                 { `${booking.description}` }
                                             </p>
                                         </td>

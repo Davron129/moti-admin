@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { ImLocation } from 'react-icons/im';
 import { useSelector } from "react-redux";
+import { BiTrash } from "react-icons/bi";
 import Api from "../../utils/network/api";
 import Styles from './Order.module.css';
+import { succesMsg } from "../../utils/functions/toast";
+import ConfirmModal from "../../components/modals/ConfirmModal";
 
 interface FoodInterface {
     id: string;
@@ -35,8 +38,10 @@ interface RootState {
 
 const Order = () => {
     const isMounted = useRef<boolean>(true);
-    const isOrderChanged = useSelector((state: RootState) => state.order);
     const [ orders, setOrders ] = useState<OrderInterface[]>([]);
+    const [ selectedOrder, setSelectedOrder ] = useState<string>("");
+    const [ isModalOpen, setIsModalOpen ] = useState<boolean>(false);
+    const isOrderChanged = useSelector((state: RootState) => state.order);
 
     const getOrders = () => {
         new Api()
@@ -54,6 +59,21 @@ const Order = () => {
             .then(() => {
                 getOrders();
             })
+    }
+
+    const deleteOrder = (id:string) => {
+        new Api()
+            .deleteOrder(id)
+            .then(() => {
+                getOrders();
+                setIsModalOpen(false);
+                succesMsg("Бронирование успешно удалено");
+            })
+    }
+
+    const handleClick = (id: string) => {
+        setIsModalOpen(true);
+        setSelectedOrder(id);
     }
 
     useEffect(() => {
@@ -81,7 +101,7 @@ const Order = () => {
                                 <th>Место заказа</th>
                                 <th>Общая стоимость</th>
                                 <th>Статус</th>
-                                <th></th>
+                                <th>Действия</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -105,19 +125,24 @@ const Order = () => {
                                             </div>
                                         </td>
                                         <td>
-                                            <div style={{ width: "32px"}}>
+                                            <div style={{ width: "32px" }}>
                                                 <a target={"_blank"} rel="noreferrer" href={`https://maps.google.com/maps?q=${order.lat},${order.lan}&ll=${order.lat},${order.lan}&z=16`}>
                                                     <ImLocation  />
                                                 </a>
                                             </div>
                                         </td>
-                                        <td>{ order.foodCounts.reduce((prev: number, el:FoodCountInterface) => prev + (el.count * el.food.sum), 0) } so'm</td>
+                                        <td>{ order.foodCounts.reduce((prev: number, el:FoodCountInterface) => prev + (el.count * el.food.sum), 0) } сум</td>
                                         <td>
                                             <div 
                                                 className={`status ${order.active && "active"}`}
                                                 onClick={() => changeOrderStatus(order.id)}    
                                             >
                                                 <span></span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className="icon__wrapper" onClick={() => handleClick(order.id)}>
+                                                <BiTrash />
                                             </div>
                                         </td>
                                     </tr>
@@ -127,6 +152,11 @@ const Order = () => {
                     </table>
                 </div>
             </section>
+            { isModalOpen && <ConfirmModal 
+                modalText="Do yo want to delete order?"
+                closeModal={setIsModalOpen}
+                acceptFunc={() => deleteOrder(selectedOrder)}    
+            /> }
         </>
 
     )

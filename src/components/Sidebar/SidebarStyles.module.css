@@ -10,10 +10,21 @@
     transition: .3s ease-in-out;
     background-color: var(--white);
     box-shadow: 0px 5px 20px rgba(56, 59, 65, 0.08);
+    z-index: 30;
 }
 
-.sidebar.active {
-    width: 60px;
+.burger {
+    display: none;
+}
+
+.sidebar.wide .burger {
+    display: block;
+    width: 20px;
+    cursor: pointer;
+}
+
+.sidebar.wide {
+    width: 80px;
     transition: .3s ease-in-out;
 }
 
@@ -54,7 +65,20 @@
 }
 
 .sidebar__item .item__text {
+    width: auto;
     font-size: 16px;
     font-weight: 600;
     line-height: 22px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.sidebar.wide .item__text {
+    width: 0;
+    display: none;
+}
+
+.sidebar.wide .sidebar__icon {
+    margin-left: 4px;
+    margin-right: 0;
 }

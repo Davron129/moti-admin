@@ -126,3 +126,50 @@
     display: inline-block;
     cursor: pointer;
 }
+
+@media (max-width: 768px) {
+    .category__add {
+        grid-gap: 10px;
+        grid-template-columns: auto 240px;
+    }
+
+    .category__form,
+    .category__view {
+        padding: 8px 16px;
+    }
+
+    .form__group label {
+        margin-bottom: 12px;
+    }
+
+    .form__label {
+        font-size: 14px;
+    }
+
+    .form__input {
+        padding: 6px 12px;
+        font-size: 12px;
+    }   
+
+    .category__img {
+        height: 120px;
+    }
+
+    .category__name {
+        font-size: 14px;
+    }
+
+    .category__description,
+    .category__price { font-size: 12px; }
+}
+
+@media (max-width: 576px) {
+    .category__add {
+        grid-template-columns: auto;
+    }
+
+    .category__card {
+        margin: 0 auto;
+        max-width: 320px;
+    }
+}

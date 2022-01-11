@@ -1,7 +1,7 @@
 @import "../../assets/styles/globalStyles.css";
 
 .modal {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -10,7 +10,7 @@
     place-items: center;
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(2px);
-    z-index: 30;
+    z-index: 40;
 }
 
 .sideModal {

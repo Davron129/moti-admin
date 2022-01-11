@@ -20,4 +20,5 @@ export const ImageWrapper = styled.div`
     width: 160px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 `

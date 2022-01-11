@@ -48,14 +48,12 @@
     height: 58px;
     overflow-x: auto;
     position: relative;
-    /* padding: 10px; */
 }
 
 .category__inner {
     width: 100%;
     height: 100%;
     position: relative;
-    /* margin: -10px; */
 }
 
 .category__active {
@@ -83,4 +81,39 @@
     display: grid;
     grid-gap: 20px;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr) );
+}
+
+@media (max-width: 768px) {
+    .category__actions {
+        margin-bottom: 12px;
+    }
+
+    .category__action {
+        margin-right: 12px;
+        padding: 6px 12px;
+        font-size: 12px;    
+    }
+
+    .category__action > div {
+        width: 14px;
+    }
+
+    .img__wrapper {
+        width: 16px;
+    }
+
+    .categories {
+        height: 48px;
+    }
+}
+
+@media (max-width: 576px) {
+    .foods__list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .foods__list > div {
+        width: 100%;
+    }
 }

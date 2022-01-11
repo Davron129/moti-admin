@@ -5,9 +5,16 @@
     margin-left: 280px;
     transition: .3s ease-in-out;
     background-color: rgba(249, 250, 252, 1);
+    overflow: hidden;
 }
 
 .main__content.active {
-    margin-left: 60px;
+    margin-left: 80px;
     transition: .3s ease-in-out;
+}
+
+@media (max-width: 991px) {
+        .main__content {
+            margin-left: 80px;
+        }
 }

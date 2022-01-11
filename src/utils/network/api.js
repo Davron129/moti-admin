@@ -107,6 +107,10 @@ class Api {
         return axios.get(`/admin/order/change-active/${id}`, { headers: this.headers })
     }
 
+    deleteOrder = (id) => {
+        return axios.delete(`/admin/order/delete/${id}`, { headers: this.headers })
+    }
+
 }
 
 export default Api
