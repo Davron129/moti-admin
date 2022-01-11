@@ -7,6 +7,7 @@ import Login from './views/Login/Index';
 import Dashboard from "./views/Dashboard";
 import CategoryEdit from './views/CategoryEdit';
 import InnerComponent from './components/InnerComponent';
+import ErrorComponent from './components/ErrorComponent';
 import CategoryAdd from "./views/CategoryAdd/CategoryAdd";
 
 import './App.css';
@@ -23,6 +24,7 @@ function App() {
                 <Route path={'/categories'} element={<Private><Dashboard /></Private>} />
                 <Route path={'/category/add'} element={<Private><CategoryAdd /></Private>} />
                 <Route path={'/food/edit/:id'} element={<Private><CategoryEdit /></Private>} />
+                <Route path="*" element={<ErrorComponent />} />
             </Route>
         </Routes>
     </div>

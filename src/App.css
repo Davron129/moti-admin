@@ -4,7 +4,7 @@
     min-height: 100vh;
     margin-left: 280px;
     transition: .3s ease-in-out;
-    /* background-color: var(--cloud-bg); */
+    background-color: rgba(249, 250, 252, 1);
 }
 
 .main__content.active {
