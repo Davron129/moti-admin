@@ -11,7 +11,7 @@ import App from './App';
 
 import './assets/styles/globalStyles.css';
 
-const store = createStore(reducers)
+const store = createStore(reducers);
 
 axios.defaults.baseURL = `${API}/api/`;
 

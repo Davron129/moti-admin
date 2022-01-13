@@ -4,7 +4,7 @@ import Sidebar from '../Sidebar';
 import { Outlet } from 'react-router-dom'
 
 const InnerComponent = () => {
-    const [ isWide, setIsWide ] = useState(false);
+    const [ isWide, setIsWide ] = useState(true);
 
     return (
         <>
