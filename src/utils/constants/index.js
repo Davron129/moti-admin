@@ -1,1 +1,1 @@
-export const API = 'http://moti.uz/v1'
+export const API = 'YOUR_API_URL'
